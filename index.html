@@ -566,6 +566,14 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 .tbl{width:100%;border-collapse:collapse;font-size:14px;}
 .tbl th,.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:right;}
 .tbl th{font-weight:800;color:var(--charcoal-soft);font-size:12.5px;}
+
+.imgpick{display:flex;gap:8px;align-items:stretch;}
+.imgpick input[type=text]{flex:1;min-width:0;}
+.upbtn{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:10px;padding:0 14px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;color:var(--charcoal);}
+.upbtn:hover{border-color:var(--red);color:var(--red);}
+.imgprev{margin-top:8px;border:1px solid var(--line);border-radius:10px;overflow:hidden;max-width:220px;background:#fff;}
+.imgprev img{display:block;width:100%;height:auto;}
+.upmsg{display:block;min-height:1em;}
 </style>
 </head>
 <body>
@@ -994,7 +1002,7 @@ function rerenderAll(){
  $$(".page").forEach(function(p){p.classList.remove("active");});
  document.getElementById(PAGEID[r]).classList.add("active");
  observeReveal();}
-var FB_SDK=["https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"];
+var FB_SDK=["https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"];
 function loadScript(src){return new Promise(function(res,rej){var s=document.createElement("script");s.src=src;s.async=true;s.onload=res;s.onerror=function(){rej(new Error("sdk_load_failed"));};document.head.appendChild(s);});}
 var FB_DEFAULT={apiKey:"AIzaSyBhjLQWqPMK4QkBSGUx98ttp_4IaCOwr4w",authDomain:"alshomrani-consultancy.firebaseapp.com",projectId:"alshomrani-consultancy",storageBucket:"alshomrani-consultancy.firebasestorage.app",messagingSenderId:"861263470233",appId:"1:861263470233:web:8f436ce13f4001da44e208"};
 function getFbCfg(){var c=lsGet(LS_FIRE);return (c&&c.apiKey&&c.projectId&&c.appId)?c:FB_DEFAULT;}
@@ -1007,7 +1015,7 @@ function initFirebase(){
   .then(function(){
    if(!window.firebase)throw new Error("sdk_missing");
    fb.app=window.firebase.apps.length?window.firebase.app():window.firebase.initializeApp(cfg);
-   fb.auth=window.firebase.auth();fb.db=window.firebase.firestore();
+   fb.auth=window.firebase.auth();fb.db=window.firebase.firestore();try{fb.st=window.firebase.storage();}catch(e){fb.st=null;}
    try{fb.db.settings({ignoreUndefinedProperties:true});}catch(e){}
    fb.ready=true;return fb;})
   .catch(function(e){_fbInit=null;throw e;});
@@ -1059,6 +1067,74 @@ function openAdmin(){
  $$("#admNav button").forEach(function(b){b.onclick=function(){admTab=b.getAttribute("data-tab");openAdmin();};});
  $("#admBody").innerHTML=admRender(admTab);admBind(admTab);
  $("#ovAdmin").classList.add("open");}
+var LS_MEDIA="als_media_store";
+function mediaStore(){try{return localStorage.getItem(LS_MEDIA)||"db";}catch(e){return "db";}}
+function setMediaStore(v){try{localStorage.setItem(LS_MEDIA,v);}catch(e){}}
+function docBytes(){try{return new TextEncoder().encode(JSON.stringify(C)).length;}catch(e){return 0;}}
+function fmtKB(n){return (n/1024).toFixed(0)+" KB";}
+function shrinkImage(file,maxDim,quality){return new Promise(function(res,rej){
+ if(/svg/i.test(file.type)){var fr0=new FileReader();fr0.onload=function(){res({dataUrl:fr0.result,blob:file,type:file.type});};fr0.onerror=rej;fr0.readAsDataURL(file);return;}
+ var fr=new FileReader();
+ fr.onload=function(){var img=new Image();
+  img.onload=function(){
+   var w=img.width,h=img.height,m=Math.max(w,h);
+   if(m>maxDim){var k=maxDim/m;w=Math.round(w*k);h=Math.round(h*k);}
+   var c=document.createElement("canvas");c.width=w;c.height=h;
+   var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);
+   var du=c.toDataURL("image/jpeg",quality);
+   c.toBlob(function(b){res({dataUrl:du,blob:b||file,type:"image/jpeg"});},"image/jpeg",quality);
+  };
+  img.onerror=function(){rej(new Error("bad_image"));};
+  img.src=fr.result;};
+ fr.onerror=rej;fr.readAsDataURL(file);});}
+function uploadToStorage(blob,name){
+ return initFirebase().then(function(){
+  if(!fb.st)throw new Error("no_storage");
+  if(!fb.auth||!fb.auth.currentUser)throw new Error("not_signed_in");
+  var safe=String(name||"img").replace(/[^\w.\-]+/g,"_").slice(-40);
+  var ref=fb.st.ref("site-media/"+Date.now()+"_"+safe);
+  return ref.put(blob).then(function(){return ref.getDownloadURL();});});}
+function storageHelp(e){
+ var m=(e&&e.message)||"";
+ if(m==="no_storage")return "لم يتم تفعيل Firebase Storage. افتح console.firebase.google.com ← Build ← Storage ← Get started.";
+ if(m==="not_signed_in")return "سجّل الدخول أولاً ثم أعد المحاولة.";
+ if(/unauthorized|permission/i.test(m))return "قواعد Storage تمنع الرفع. في Firebase ← Storage ← Rules اسمح بالكتابة للمستخدمين المسجّلين.";
+ return "تعذّر الرفع: "+m;}
+function fImg(p,l,v,h){
+ var id="up_"+p.replace(/[^a-zA-Z0-9]/g,"_");
+ return '<div class="fld"><label>'+esc(l)+'</label>'
+  +'<div class="imgpick"><input type="text" data-bind="'+esc(p)+'" value="'+esc(v==null?"":v)+'" placeholder="assets/photo.jpg">'
+  +'<button type="button" class="upbtn" data-up="'+esc(id)+'">↑ من جهازي</button>'
+  +'<input type="file" class="upfile" id="'+esc(id)+'" accept="image/*" hidden></div>'
+  +'<div class="imgprev"'+(v?'':' hidden')+'><img src="'+esc(v||"")+'" alt="" onerror="this.parentNode.hidden=true;"></div>'
+  +'<small class="upmsg"></small>'
+  +(h?'<small>'+esc(h)+'</small>':'')+'</div>';}
+function bindUploads(){
+ $$("#admBody .upbtn").forEach(function(b){
+  var inp=document.getElementById(b.getAttribute("data-up"));
+  if(!inp)return;
+  b.onclick=function(){inp.click();};
+  inp.onchange=function(){
+   var f=inp.files&&inp.files[0];if(!f)return;
+   var fld=b.closest(".fld"),txt=fld.querySelector('input[data-bind]'),msg=fld.querySelector(".upmsg"),prev=fld.querySelector(".imgprev");
+   var mode=mediaStore();
+   msg.textContent="جارٍ المعالجة…";msg.style.color="";
+   shrinkImage(f,mode==="storage"?1920:1400,mode==="storage"?0.85:0.72).then(function(r){
+    function apply(url,note){
+     txt.value=url;txt.dispatchEvent(new Event("input",{bubbles:true}));
+     if(prev){var im=prev.querySelector("img");im.src=url;prev.hidden=false;}
+     msg.style.color="#1a7f4b";msg.textContent=note;}
+    if(mode==="storage"){
+     msg.textContent="جارٍ الرفع إلى Storage…";
+     return uploadToStorage(r.blob,f.name).then(function(u){apply(u,"✓ تم الرفع إلى Storage");})
+      .catch(function(e){msg.style.color="var(--red)";msg.textContent=storageHelp(e);});}
+    var kb=r.dataUrl.length*0.75;
+    if(kb>420*1024){msg.style.color="var(--red)";msg.textContent="الصورة كبيرة ("+fmtKB(kb)+") — استخدم Firebase Storage أو صورة أصغر.";return;}
+    var after=docBytes()+r.dataUrl.length;
+    if(after>900*1024){msg.style.color="var(--red)";msg.textContent="لا تتسع: حجم البيانات سيصل "+fmtKB(after)+" والحد 1 MB. انقل الصور إلى Firebase Storage.";return;}
+    apply(r.dataUrl,"✓ تمت الإضافة ("+fmtKB(kb)+") — المستخدم من الحد: "+fmtKB(after)+" / 1 MB");
+   }).catch(function(e){msg.style.color="var(--red)";msg.textContent="تعذّرت قراءة الصورة.";});
+   inp.value="";};});}
 function fText(p,l,v,h,t){return '<div class="fld"><label>'+esc(l)+'</label><input type="'+(t||"text")+'" data-bind="'+esc(p)+'" value="'+esc(v==null?"":v)+'">'+(h?'<small>'+esc(h)+'</small>':'')+'</div>';}
 function fArea(p,l,v,h){return '<div class="fld"><label>'+esc(l)+'</label><textarea data-bind="'+esc(p)+'">'+esc(v==null?"":v)+'</textarea>'+(h?'<small>'+esc(h)+'</small>':'')+'</div>';}
 function fSelIcon(p,l,v){return '<div class="fld"><label>'+esc(l)+'</label><select data-bind="'+esc(p)+'">'+ICON_KEYS.map(function(k){return '<option value="'+k+'"'+(k===v?' selected':'')+'>'+k+'</option>';}).join("")+'</select></div>';}
@@ -1078,7 +1154,7 @@ function admRender(tab){
   h+='<div class="fld-row">'+fText("site.whatsapp","رقم واتساب",s.whatsapp,"أرقام فقط بدون +")+fText("site.email","البريد الإلكتروني",s.email,"","email")+'</div>';
   h+=fText("site.address","العنوان",s.address);
   h+='<div class="fld-row">'+fText("site.crNumber","السجل التجاري",s.crNumber)+fText("site.sceNumber","ترخيص الهيئة السعودية للمهندسين",s.sceNumber)+'</div>';
-  h+='<div class="fld-row">'+fText("site.foundedYear","سنة التأسيس",s.foundedYear)+fText("site.logo","رابط الشعار",s.logo)+'</div>';
+  h+='<div class="fld-row">'+fText("site.foundedYear","سنة التأسيس",s.foundedYear)+fImg("site.logo","الشعار",s.logo)+'</div>';
   h+=fArea("site.waDefault","نص رسالة واتساب الافتراضية",s.waDefault);
   h+=HR+'<h4 style="margin-bottom:14px;">بيانات محركات البحث (SEO)</h4>';
   h+=fText("site.title","عنوان الصفحة",s.title)+fArea("site.description","وصف الموقع",s.description,"150–160 حرف مثالية");}
@@ -1089,7 +1165,7 @@ function admRender(tab){
   h+=fText("hero.titleEm","الكلمة المميزة بالأحمر",s.titleEm)+fArea("hero.lead","النص التعريفي",s.lead);
   h+='<div class="fld-row">'+fText("hero.ctaPrimary","زر أساسي",s.ctaPrimary)+fText("hero.ctaSecondary","زر ثانوي",s.ctaSecondary)+'</div>';
   h+='<div class="fld-row">'+fText("hero.badgeTop","الشارة العلوية",s.badgeTop)+fText("hero.badgeFloat","الشارة السفلية",s.badgeFloat)+'</div>';
-  h+=fText("hero.heroImage","رابط صورة الواجهة (اختياري)",s.heroImage,"اتركه فارغاً للرسم الهندسي");
+  h+=fImg("hero.heroImage","صورة الواجهة (اختياري)",s.heroImage,"اتركه فارغاً للرسم الهندسي");
   h+=HR+'<h4 style="margin-bottom:14px;">شريط الاعتمادات</h4>';
   h+=C.credentials.map(function(c,i){return '<div class="rep"><div class="rep-hd"><b>اعتماد '+(i+1)+'</b>'+listTools("credentials",i,C.credentials.length)+'</div>'+fSelIcon("credentials."+i+".icon","الأيقونة",c.icon)+fText("credentials."+i+".text","النص",c.text)+'</div>';}).join("")+addBtn("credentials","إضافة اعتماد");}
  else if(tab==="stats"){
@@ -1098,12 +1174,12 @@ function admRender(tab){
  else if(tab==="services"){
   h+='<div class="hint"><b>النقاط المختصرة</b> تظهر في بطاقة الرئيسية، و<b>التفاصيل</b> في صفحة الخدمات. اكتب سطراً واحداً لكل بند.</div>';
   h+=fText("servicesIntro.eyebrow","عنوان صغير",C.servicesIntro.eyebrow)+fText("servicesIntro.title","عنوان القسم",C.servicesIntro.title)+fArea("servicesIntro.text","نص القسم",C.servicesIntro.text)+HR;
-  h+=C.services.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.name||"خدمة")+'</b>'+listTools("services",i,C.services.length)+'</div>'+fCheck("services."+i+".show","ظاهرة في الموقع",x.show)+'<div class="fld-row">'+fText("services."+i+".name","اسم الخدمة",x.name)+fSelIcon("services."+i+".icon","الأيقونة",x.icon)+'</div>'+fArea("services."+i+".intro","الوصف المختصر",x.intro)+fArea("services."+i+".bullets","النقاط في البطاقة (سطر لكل نقطة)",(x.bullets||[]).join("\n"))+fArea("services."+i+".details","التفاصيل الكاملة (سطر لكل بند)",(x.details||[]).join("\n"))+fText("services."+i+".suited","مناسب لـ",x.suited)+fText("services."+i+".image","رابط صورة الخدمة (اختياري)",x.image)+'</div>';}).join("")+addBtn("services","إضافة خدمة");}
+  h+=C.services.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.name||"خدمة")+'</b>'+listTools("services",i,C.services.length)+'</div>'+fCheck("services."+i+".show","ظاهرة في الموقع",x.show)+'<div class="fld-row">'+fText("services."+i+".name","اسم الخدمة",x.name)+fSelIcon("services."+i+".icon","الأيقونة",x.icon)+'</div>'+fArea("services."+i+".intro","الوصف المختصر",x.intro)+fArea("services."+i+".bullets","النقاط في البطاقة (سطر لكل نقطة)",(x.bullets||[]).join("\n"))+fArea("services."+i+".details","التفاصيل الكاملة (سطر لكل بند)",(x.details||[]).join("\n"))+fText("services."+i+".suited","مناسب لـ",x.suited)+fImg("services."+i+".image","صورة الخدمة (اختياري)",x.image)+'</div>';}).join("")+addBtn("services","إضافة خدمة");}
  else if(tab==="projects"){var p=C.projectsPage;
   h+='<div class="hint">أضف مشاريعك هنا. ضع رابط صورة لعرضها أعلى البطاقة، أو اتركه فارغاً.</div>';
   h+=fText("projectsPage.title","عنوان الصفحة",p.title,"يمكن استخدام <em>كلمة</em> لتمييزها بالأحمر")+fArea("projectsPage.sub","نص الصفحة",p.sub);
   h+=fCheck("projectsPage.showNote","إظهار ملاحظة السرية",p.showNote)+fText("projectsPage.noteTitle","عنوان الملاحظة",p.noteTitle)+fArea("projectsPage.noteText","نص الملاحظة",p.noteText)+HR;
-  h+=p.items.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.name||"مشروع")+'</b>'+listTools("projectsPage.items",i,p.items.length)+'</div>'+fCheck("projectsPage.items."+i+".show","ظاهر في الموقع",x.show)+'<div class="fld-row">'+fText("projectsPage.items."+i+".name","اسم المشروع",x.name)+fText("projectsPage.items."+i+".sector","القطاع",x.sector)+'</div><div class="fld-row">'+fText("projectsPage.items."+i+".loc","الموقع",x.loc)+fText("projectsPage.items."+i+".scope","النطاق",x.scope)+'</div>'+fArea("projectsPage.items."+i+".desc","الوصف",x.desc)+fText("projectsPage.items."+i+".image","رابط صورة المشروع",x.image)+'</div>';}).join("")+addBtn("projectsPage.items","إضافة مشروع");}
+  h+=p.items.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.name||"مشروع")+'</b>'+listTools("projectsPage.items",i,p.items.length)+'</div>'+fCheck("projectsPage.items."+i+".show","ظاهر في الموقع",x.show)+'<div class="fld-row">'+fText("projectsPage.items."+i+".name","اسم المشروع",x.name)+fText("projectsPage.items."+i+".sector","القطاع",x.sector)+'</div><div class="fld-row">'+fText("projectsPage.items."+i+".loc","الموقع",x.loc)+fText("projectsPage.items."+i+".scope","النطاق",x.scope)+'</div>'+fArea("projectsPage.items."+i+".desc","الوصف",x.desc)+fImg("projectsPage.items."+i+".image","صورة المشروع",x.image)+'</div>';}).join("")+addBtn("projectsPage.items","إضافة مشروع");}
  else if(tab==="gallery"){var g=C.gallery;
   h+='<div class="hint">ضع رابط أي <b>صورة</b> أو <b>فيديو mp4</b> أو رابط <b>يوتيوب</b> — يتعرّف الموقع على النوع تلقائياً.</div>';
   h+=fCheck("gallery.show","إظهار المعرض",g.show);
@@ -1111,12 +1187,12 @@ function admRender(tab){
   h+=(g.items.length?"":'<p style="color:var(--charcoal-soft);font-size:14px;margin-bottom:16px;">لا توجد عناصر بعد — اضغط «إضافة عنصر».</p>');
   h+=g.items.map(function(m,i){
    var prev=m.url?'<div style="margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid var(--line);max-width:280px;">'+mediaEl(m)+'</div>':'';
-   return '<div class="rep"><div class="rep-hd"><b>'+esc(m.title||("عنصر "+(i+1)))+'</b>'+listTools("gallery.items",i,g.items.length)+'</div>'+prev+fText("gallery.items."+i+".url","الرابط",m.url,"صورة، فيديو mp4، أو رابط يوتيوب")+'<div class="fld-row">'+fText("gallery.items."+i+".title","العنوان",m.title)+'<div class="fld"><label>النوع</label><select data-bind="gallery.items.'+i+'.type"><option value="auto"'+((m.type||"auto")==="auto"?" selected":"")+'>تلقائي</option><option value="image"'+(m.type==="image"?" selected":"")+'>صورة</option><option value="video"'+(m.type==="video"?" selected":"")+'>فيديو</option></select></div></div>'+fText("gallery.items."+i+".caption","وصف مختصر",m.caption)+'</div>';}).join("")+addBtn("gallery.items","إضافة عنصر");}
+   return '<div class="rep"><div class="rep-hd"><b>'+esc(m.title||("عنصر "+(i+1)))+'</b>'+listTools("gallery.items",i,g.items.length)+'</div>'+prev+fImg("gallery.items."+i+".url","الصورة أو الرابط",m.url,"ارفع صورة، أو الصق رابط فيديو mp4 أو يوتيوب")+'<div class="fld-row">'+fText("gallery.items."+i+".title","العنوان",m.title)+'<div class="fld"><label>النوع</label><select data-bind="gallery.items.'+i+'.type"><option value="auto"'+((m.type||"auto")==="auto"?" selected":"")+'>تلقائي</option><option value="image"'+(m.type==="image"?" selected":"")+'>صورة</option><option value="video"'+(m.type==="video"?" selected":"")+'>فيديو</option></select></div></div>'+fText("gallery.items."+i+".caption","وصف مختصر",m.caption)+'</div>';}).join("")+addBtn("gallery.items","إضافة عنصر");}
  else if(tab==="about"){var a=C.about;
   h+=fText("about.title","عنوان الصفحة",a.title,"يمكن استخدام <em>كلمة</em> لتمييزها")+fArea("about.sub","النص التعريفي",a.sub);
   h+=HR+'<h4 style="margin-bottom:14px;">قصة الشركة</h4>';
   h+='<div class="fld-row">'+fText("about.storyEyebrow","عنوان صغير",a.storyEyebrow)+fText("about.storyTitle","العنوان",a.storyTitle)+'</div>';
-  h+=fArea("about.storyP1","الفقرة الأولى",a.storyP1)+fArea("about.storyP2","الفقرة الثانية",a.storyP2)+fText("about.storyImage","رابط صورة (اختياري)",a.storyImage);
+  h+=fArea("about.storyP1","الفقرة الأولى",a.storyP1)+fArea("about.storyP2","الفقرة الثانية",a.storyP2)+fImg("about.storyImage","صورة (اختياري)",a.storyImage);
   h+=HR+'<h4 style="margin-bottom:14px;">التراخيص</h4>'+fText("about.licTitle","عنوان القسم",a.licTitle)+fArea("about.licText","نص القسم",a.licText);
   h+=a.licenses.map(function(l,i){
    var rows=(l.rows&&l.rows.length)?l.rows:[];
@@ -1159,6 +1235,8 @@ function admRender(tab){
   h+=C.social.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.label)+'</b>'+listTools("social",i,C.social.length)+'</div>'+fCheck("social."+i+".show","ظاهر",x.show)+'<div class="fld-row">'+fText("social."+i+".label","الاسم",x.label)+'<div class="fld"><label>الأيقونة</label><select data-bind="social.'+i+'.icon">'+["ig","tt","sc","x","yt","li"].map(function(k){return '<option value="'+k+'"'+(k===x.icon?" selected":"")+'>'+k+'</option>';}).join("")+'</select></div></div>'+fText("social."+i+".url","الرابط",x.url)+'</div>';}).join("")+addBtn("social","إضافة حساب");}
  else if(tab==="settings"){var cfg=getFbCfg()||{};
   h+=(fbConfigured()?'<div class="hint" style="border-color:#1a7f4b;background:#eff8f3;"><b style="color:#1a7f4b;">\u2713 الحفظ السحابي مُفعّل.</b> الموقع متصل بمشروع <kbd>'+esc(cfg.projectId||'')+'</kbd> \u2014 تعديلاتك تُحفظ في السحابة ويراها الزوار بعد الضغط على «نشر». لا حاجة لتغيير أي شيء هنا.</div>':'<div class="hint"><b>الحفظ السحابي (Firebase) غير مُفعّل.</b> بدونه تُحفظ التعديلات على هذا الجهاز فقط ولن يراها الزوار.<br>أنشئ مشروعاً على <kbd>console.firebase.google.com</kbd> ثم Firestore Database ثم Project settings وانسخ قيم <kbd>firebaseConfig</kbd> هنا.</div>');
+  h+='<div class="hint"><b>مكان حفظ الصور المرفوعة.</b> «داخل قاعدة البيانات» لا يحتاج أي إعداد لكن مجموع الصور محدود بـ 1 ميجابايت. «Firebase Storage» بلا حدود عملية ويحتاج تفعيل Storage مرة واحدة من لوحة Firebase.</div>';
+  h+='<div class="fld"><label>حفظ الصور في</label><select id="mediaStoreSel"><option value="db"'+(mediaStore()==="db"?" selected":"")+'>داخل قاعدة البيانات (بدون إعداد)</option><option value="storage"'+(mediaStore()==="storage"?" selected":"")+'>Firebase Storage (للصور الكثيرة)</option></select><small>المستخدم حالياً من حد قاعدة البيانات: '+fmtKB(docBytes())+' / 1 MB</small></div>'+HR;
   h+='<div class="fld-row">'+fText("__fb.apiKey","apiKey",cfg.apiKey)+fText("__fb.authDomain","authDomain",cfg.authDomain)+'</div>';
   h+='<div class="fld-row">'+fText("__fb.projectId","projectId",cfg.projectId)+fText("__fb.storageBucket","storageBucket",cfg.storageBucket)+'</div>';
   h+='<div class="fld-row">'+fText("__fb.messagingSenderId","messagingSenderId",cfg.messagingSenderId)+fText("__fb.appId","appId",cfg.appId)+'</div>';
@@ -1193,6 +1271,7 @@ function admBind(tab){
    if(LINE_ARRAYS.indexOf(leaf)>=0)v=String(v).split("\n").map(function(s){return s.trim();}).filter(Boolean);
    setPath(path,v);dirty=true;scheduleLive();};
   el.addEventListener("input",handler);el.addEventListener("change",handler);});
+ bindUploads();
  $$("#admBody [data-add]").forEach(function(b){
   b.onclick=function(){
    var p=b.getAttribute("data-add"),arr=getPath(p);
@@ -1212,6 +1291,8 @@ function admBind(tab){
    if(!Array.isArray(arr)||j<0||j>=arr.length)return;
    var t=arr[i];arr[i]=arr[j];arr[j]=t;
    dirty=true;openAdmin();liveRender();};});
+ var ms=$("#mediaStoreSel");
+ if(ms)ms.onchange=function(){setMediaStore(ms.value);toast(ms.value==="storage"?"سيتم رفع الصور إلى Firebase Storage":"سيتم حفظ الصور داخل قاعدة البيانات");};
  var fs=$("#fbSave");
  if(fs)fs.onclick=function(){
   var cfg={};

@@ -575,6 +575,7 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 .imgprev img{display:block;width:100%;height:auto;}
 .upmsg{display:block;min-height:1em;}
 
+.cta-note{display:block;margin-top:16px;color:rgba(250,247,240,.72);font-size:14px;}
 /* ===== mobile UX layer ===== */
 .crow{flex-wrap:wrap;}
 .crow span:first-child{flex:0 1 auto;min-width:0;}
@@ -888,7 +889,8 @@ contact:{title:"أرسل صك الأرض — <em>نرد عليك بمسار وا
  {id:uid("fq"),q:"هل تتعاملون مع شركات التطوير العقاري؟",a:"نعم، نتعامل حالياً مع اثنتي عشرة شركة تطوير عقاري ومقاولات، ونقدّم لها خدمات التصميم والإشراف على البيع على الخارطة وفرز الوحدات وإدارة المشاريع."},
  {id:uid("fq"),q:"ماذا أحتاج أن أجهّز قبل التواصل؟",a:"صورة الصك، وموقع الأرض على الخريطة، وفكرة مبدئية عمّا ترغب ببنائه. هذه وحدها تكفي لنبدأ استشارة مفيدة."}]},
 cta:{title:"جاهز تبدأ مشروعك أو معاملتك؟",
- text:"أرسل لنا صورة الصك وموقع الأرض، وفريقنا الهندسي يرد عليك بمسار فني واضح وجدول زمني وسعر مكتوب — مجاناً وبدون أي التزام.",btn:"تواصل واتساب الآن"},
+ text:"أرسل لنا صورة الصك وموقع الأرض، وفريقنا الهندسي يرد عليك بمسار فني واضح وجدول زمني وسعر مكتوب — مجاناً وبدون أي التزام.",btn:"تواصل واتساب الآن",note:"نرد خلال ساعات العمل · السبت – الخميس، 9 صباحاً – 9 مساءً"},
+ctaVar:{"/services":{title:"محتار أي خدمة تناسب مشروعك؟",btn:"احجز مكالمة 10 دقائق"},"/projects":{title:"عندك مشروع مشابه؟",btn:"أرسل تفاصيل مشروعك"},"/about":{title:"تبغى تشتغل مع فريق مرخّص؟",btn:"كلّمنا على واتساب"},"/contact":{title:"جاهز نبدأ؟",btn:"أرسل صورة الصك"}},
 footer:{about:"شركة استشارات هندسية سعودية مرخّصة، تقدّم خدمات التصميم والرخص والمساحة والإشراف وأنظمة السلامة منذ عام 2016، بأربعة فروع داخل المملكة العربية السعودية.",copyright:"جميع الحقوق محفوظة."},
 social:[{id:uid("so"),icon:"ig",label:"Instagram",url:"https://www.instagram.com/alshomrani.co",show:true},
  {id:uid("so"),icon:"tt",label:"TikTok",url:"https://www.tiktok.com/@alshomrani.co",show:true},
@@ -950,7 +952,11 @@ function observeReveal(){
 function heroArt(img,badges){
  var inner=img?'<img src="'+esc(img)+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">':'<div class="art-blob"></div><div class="art-grid"></div>'+VILLA_SVG;
  return inner+(badges||"");}
-function ctaBlock(){return '<section class="cta-banner"><div class="cta-box reveal"><h2>'+esc(C.cta.title)+'</h2><p>'+esc(C.cta.text)+'</p><div class="ctas"><a class="btn btn-light" data-wa="">'+I.wa+' '+esc(C.cta.btn)+'</a><a class="btn btn-outline" style="border-color:#fff;color:#fff;" href="'+telLink()+'">اتصل: '+esc(C.site.phone)+'</a></div></div></section>';}
+function ctaBlock(route){
+ var v=(C.ctaVar&&C.ctaVar[route])||{};
+ var _t=v.title||C.cta.title,_x=v.text||C.cta.text,_b=v.btn||C.cta.btn;
+ var _n=C.cta.note?'<small class="cta-note">'+esc(C.cta.note)+'</small>':'';
+ return '<section class="cta-banner"><div class="cta-box reveal"><h2>'+esc(_t)+'</h2><p>'+esc(_x)+'</p><div class="ctas"><a class="btn btn-light" data-wa="">'+I.wa+' '+esc(_b)+'</a><a class="btn btn-outline" style="border-color:#fff;color:#fff;" href="'+telLink()+'">اتصل: '+esc(C.site.phone)+'</a></div>'+_n+'</div></section>';}
 function credStrip(){if(!C.credentials||!C.credentials.length)return "";return '<div class="cred-strip"><div class="cred-inner">'+C.credentials.map(function(c){return '<div>'+icon(c.icon)+' '+esc(c.text)+'</div>';}).join("")+'</div></div>';}
 function pheadBlock(cr,t,s){return '<section class="phead"><div class="wrap"><nav class="crumb" aria-label="مسار التنقل"><a href="#/">الرئيسية</a><i>/</i>'+esc(cr)+'</nav><h1>'+t+'</h1><p>'+esc(s)+'</p></div></section>';}
 function galleryBlock(){
@@ -960,7 +966,7 @@ function galleryBlock(){
 function renderHome(){
  var h=C.hero;
  var cards=C.services.filter(function(s){return s.show!==false;}).map(function(s,i){
-  return '<div class="svc-card'+(i===5?" dark":"")+' reveal"><div class="svc-num">'+String(i+1).padStart(2,"0")+'</div><div class="svc-ic">'+icon(s.icon)+'</div><h3>'+esc(s.name)+'</h3><ul>'+(s.bullets||[]).map(function(b){return '<li>'+esc(b)+'</li>';}).join("")+'</ul><a class="svc-cta" href="#/services~svc-'+esc(s.id)+'">تفاصيل الخدمة '+I.arrow+'</a></div>';}).join("");
+  return '<div class="svc-card'+(i===5?" dark":"")+' reveal"><div class="svc-num">'+String(i+1).padStart(2,"0")+'</div><div class="svc-ic">'+icon(s.icon)+'</div><h3>'+esc(s.name)+'</h3><ul>'+(s.bullets||[]).map(function(b){return '<li>'+esc(b)+'</li>';}).join("")+'</ul><a class="svc-cta" href="#/services~svc-'+esc(s.id)+'">شوف تفاصيل الخدمة '+I.arrow+'</a></div>';}).join("");
  var stats=C.stats.map(function(s){return '<div><b>'+esc(s.value)+'</b><span>'+esc(s.label)+'</span></div>';}).join("");
  var wl=C.why.items.map(function(w){return '<div class="why-item reveal"><div class="why-ic">'+icon(w.icon)+'</div><div><h4>'+esc(w.title)+'</h4><p>'+esc(w.text)+'</p></div></div>';}).join("");
  var st=C.process.steps.map(function(p){return '<div class="proc-step reveal"><div class="n">'+esc(p.n)+'</div><h4>'+esc(p.title)+'</h4><p>'+esc(p.text)+'</p></div>';}).join("");
@@ -973,14 +979,14 @@ function renderHome(){
  '<section class="process"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">'+esc(C.process.eyebrow)+'</div><h2>'+esc(C.process.title)+'</h2></div><div class="proc-grid">'+st+'</div></div></section>'+
  galleryBlock()+
  '<section class="clients"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.clients.eyebrow)+'</div><h2>'+esc(C.clients.title)+'</h2><p>'+esc(C.clients.text)+'</p></div><div class="client-row">'+cl+'</div><div class="partners-label">'+esc(C.clients.partnersLabel)+'</div><div class="partner-row">'+pt+'</div><div style="margin-top:40px;"><a class="btn btn-light" href="#/projects">تصفّح أعمالنا '+I.arrow+'</a></div></div></section>'+
- ctaBlock();}
+ ctaBlock("/");}
 function renderServices(){
  var blocks=C.services.filter(function(s){return s.show!==false;}).map(function(s,i){
   var even=(i%2===1);
   var li=(s.details||[]).map(function(d){return '<li>'+I.check+'<span>'+esc(d)+'</span></li>';}).join("");
   var bg=even?'background:var(--cream-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);':'';
   return '<section class="services" id="svc-'+esc(s.id)+'" style="padding:90px 0;'+bg+'"><div class="wrap"><div class="split"><div class="reveal"><div class="eyebrow">خدمة '+String(i+1).padStart(2,"0")+'</div><h2 style="font-size:clamp(26px,3.2vw,36px);margin-bottom:16px;">'+esc(s.name)+'</h2><p style="color:var(--charcoal-soft);font-size:17px;line-height:1.9;margin-bottom:28px;">'+esc(s.intro)+'</p><ul class="checks">'+li+'</ul>'+(s.suited?'<p style="margin-top:24px;font-size:14px;color:var(--charcoal-soft);"><b style="color:var(--charcoal);">مناسب لـ:</b> '+esc(s.suited)+'</p>':'')+'<div style="margin-top:28px;"><a class="btn btn-red" data-wa="'+esc(s.name)+'">'+I.wa+' استفسر عن هذه الخدمة</a></div></div><div class="reveal"'+(even?' style="order:-1;"':'')+'><div class="hero-art" style="height:420px;">'+heroArt(s.image,"")+'</div></div></div></div></section>';}).join("");
- return pheadBlock("خدماتنا","خدمات هندسية مترابطة، <em>لا خدمات متفرقة</em>","كل خدمة أدناه يمكن طلبها منفردة، أو ضمن حزمة واحدة تتولّى فيها الشركة مشروعك من الفكرة حتى الإشغال.")+credStrip()+blocks+ctaBlock();}
+ return pheadBlock("خدماتنا","خدمات هندسية مترابطة، <em>لا خدمات متفرقة</em>","كل خدمة أدناه يمكن طلبها منفردة، أو ضمن حزمة واحدة تتولّى فيها الشركة مشروعك من الفكرة حتى الإشغال.")+credStrip()+blocks+ctaBlock("/services");}
 function renderProjects(){
  var p=C.projectsPage;
  var vis=p.items.filter(function(x){return x.show!==false;});var cats=[];vis.forEach(function(x){var c=(x.sector||"").split("\u00b7")[0].trim();if(c&&cats.indexOf(c)<0)cats.push(c);});var tabs=(vis.length>4&&cats.length>1)?('<div class="ptabs reveal"><button class="ptab on" data-cat="__all">الكل</button>'+cats.map(function(c){return '<button class="ptab" data-cat="'+esc(c)+'">'+esc(c)+'</button>';}).join("")+'</div>'):"";var cards=vis.map(function(x){
@@ -988,7 +994,7 @@ function renderProjects(){
   return '<article class="pcard reveal" data-cat="'+esc((x.sector||"").split("\u00b7")[0].trim())+'">'+img+'<span class="tag">'+esc(x.sector)+'</span><h3>'+esc(x.name)+'</h3><p>'+esc(x.desc)+'</p><div class="meta"><div>الموقع: <b>'+esc(x.loc)+'</b></div><div>النطاق: <b>'+esc(x.scope)+'</b></div></div></article>';}).join("");
  var stats=C.stats.map(function(s){return '<div><b>'+esc(s.value)+'</b><span>'+esc(s.label)+'</span></div>';}).join("");
  var note=p.showNote?'<section class="clients"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">ملاحظة مهنية</div><h2>'+esc(p.noteTitle)+'</h2><p>'+esc(p.noteText)+'</p></div><a class="btn btn-light" data-wa="ملف الأعمال والمشاريع السابقة">'+I.wa+' اطلب ملف الأعمال</a></div></section>':'';
- return pheadBlock("أعمالنا",p.title,p.sub)+'<section class="services" style="padding:80px 0 40px;"><div class="wrap"><div class="statband reveal">'+stats+'</div></div></section><section class="services" style="padding:40px 0 90px;"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">مختارات من أعمالنا</div><h2>قطاعات ونطاقات عمل متنوعة</h2></div>'+tabs+'<div class="grid-3" id="projGrid">'+cards+'</div></div></section>'+galleryBlock()+note+ctaBlock();}
+ return pheadBlock("أعمالنا",p.title,p.sub)+'<section class="services" style="padding:80px 0 40px;"><div class="wrap"><div class="statband reveal">'+stats+'</div></div></section><section class="services" style="padding:40px 0 90px;"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">مختارات من أعمالنا</div><h2>قطاعات ونطاقات عمل متنوعة</h2></div>'+tabs+'<div class="grid-3" id="projGrid">'+cards+'</div></div></section>'+galleryBlock()+note+ctaBlock("/projects");}
 function scopeBlock(){
  var a=C.about;
  if(!a.showScope||!a.scope||!a.scope.length)return "";
@@ -1004,7 +1010,7 @@ function renderAbout(){
  '<section class="why"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">التراخيص والاعتمادات</div><h2>'+esc(a.licTitle)+'</h2><p>'+esc(a.licText)+'</p></div><div class="grid-2">'+lic+'</div></div></section>'+
  '<section class="services" style="padding:90px 0;"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">فروعنا</div><h2>'+esc(a.branchTitle)+'</h2><p>'+esc(a.branchText)+'</p></div><div class="cgrid" style="grid-template-columns:repeat('+Math.min(a.branches.length||1,3)+',1fr);">'+br+'</div></div></section>'+
  scopeBlock()+galleryBlock()+
- '<section class="clients"><div class="wrap"><div class="why-visual reveal" style="max-width:820px;margin:0 auto;"><p class="q">"'+esc(a.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(a.quoteBy)+'</b><span>'+esc(a.quoteRole)+'</span></div></div></div></div></section>'+ctaBlock();}
+ '<section class="clients"><div class="wrap"><div class="why-visual reveal" style="max-width:820px;margin:0 auto;"><p class="q">"'+esc(a.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(a.quoteBy)+'</b><span>'+esc(a.quoteRole)+'</span></div></div></div></div></section>'+ctaBlock("/about");}
 function renderContact(){
  var c=C.contact;
  var prep=c.prep.map(function(p){return '<li>'+I.check+'<span><b>'+esc(p.b)+'</b> — '+esc(p.t)+'</span></li>';}).join("");
@@ -1013,7 +1019,7 @@ function renderContact(){
  return pheadBlock("تواصل معنا",c.title,c.sub)+
  '<section class="services" style="padding:80px 0;"><div class="wrap"><div class="cgrid"><div class="ccard reveal"><span class="ic">'+I.wa+'</span><h4>واتساب — الأسرع</h4><p>ردّ خلال ساعات العمل، ويمكنك إرفاق صورة الصك مباشرة.</p><p style="margin-top:14px;"><a class="svc-cta" data-wa="">ابدأ محادثة '+I.arrow+'</a></p></div><div class="ccard reveal"><span class="ic">'+I.phone+'</span><h4>الهاتف</h4><p><a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></p><small>'+esc(c.hours)+'</small></div><div class="ccard reveal"><span class="ic">'+I.mail+'</span><h4>البريد الإلكتروني</h4><p><a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></p><small>للعروض والمراسلات الرسمية</small></div><div class="ccard reveal"><span class="ic">'+I.pin+'</span><h4>المقر الرئيسي</h4><p>'+esc(C.site.address)+'</p><small>وفروع في بيشة ومكة المكرمة</small></div></div></div></section>'+map+
  '<section class="why"><div class="wrap"><div class="split"><div class="reveal"><div class="eyebrow">قبل أن تتواصل</div><h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;">'+esc(c.prepTitle)+'</h2><ul class="checks">'+prep+'</ul><div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' أرسل عبر واتساب</a><a class="btn btn-outline" href="'+telLink()+'">اتصال مباشر</a></div></div><div class="reveal"><div class="hero-art" style="height:420px;">'+heroArt("",'<div class="badge-top">'+I.star+' استشارة أولى مجانية</div>')+'</div></div></div></div></section>'+
- '<section class="services" style="padding:90px 0;"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">أسئلة متكررة</div><h2>'+esc(c.faqTitle)+'</h2></div><div class="faq" style="max-width:860px;margin:0 auto;">'+faq+'</div></div></section>'+ctaBlock();}
+ '<section class="services" style="padding:90px 0;"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">أسئلة متكررة</div><h2>'+esc(c.faqTitle)+'</h2></div><div class="faq" style="max-width:860px;margin:0 auto;">'+faq+'</div></div></section>'+ctaBlock("/contact");}
 function bindProjTabs(root){
  var tabs=$$(".ptab",root);if(!tabs.length)return;
  tabs.forEach(function(t){t.onclick=function(){tabs.forEach(function(o){o.classList.remove("on");});t.classList.add("on");var c=t.getAttribute("data-cat");$$("#projGrid .pcard",root).forEach(function(card){card.style.display=(c==="__all"||card.getAttribute("data-cat")===c)?"":"none";});};});}
@@ -1286,7 +1292,9 @@ function admRender(tab){
   h+='<div class="hint">ترتيب القائمة وأسماؤها. لا تغيّر «الرابط» إلا إذا كنت تعرف ما تفعل.</div>';
   h+=C.nav.map(function(n,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(n.label)+'</b>'+listTools("nav",i,C.nav.length)+'</div>'+fCheck("nav."+i+".show","ظاهر",n.show)+'<div class="fld-row">'+fText("nav."+i+".label","الاسم",n.label)+fText("nav."+i+".route","الرابط",n.route)+'</div></div>';}).join("");
   h+=HR+'<h4 style="margin-bottom:14px;">الفوتر</h4>'+fArea("footer.about","نبذة الفوتر",C.footer.about)+fText("footer.copyright","نص الحقوق",C.footer.copyright);
-  h+=HR+'<h4 style="margin-bottom:14px;">شريط الدعوة (CTA)</h4>'+fText("cta.title","العنوان",C.cta.title)+fArea("cta.text","النص",C.cta.text)+fText("cta.btn","نص الزر",C.cta.btn);
+  h+=HR+'<h4 style="margin-bottom:14px;">شريط الدعوة (CTA)</h4>'+fText("cta.title","العنوان",C.cta.title)+fArea("cta.text","النص",C.cta.text)+fText("cta.btn","نص الزر",C.cta.btn)+fText("cta.note","سطر الطمأنة تحت الأزرار",C.cta.note,"يظهر أسفل أزرار التواصل في كل صفحة");
+  h+='<div class="hint">نصوص مخصّصة لكل صفحة — اتركها فارغة لاستخدام النص العام أعلاه.</div>';
+  h+=[["/services","صفحة الخدمات"],["/projects","صفحة الأعمال"],["/about","صفحة من نحن"],["/contact","صفحة تواصل معنا"]].map(function(p){var v=(C.ctaVar||{})[p[0]]||{};return '<div class="rep"><div class="rep-hd"><b>'+esc(p[1])+'</b></div><div class="fld-row">'+fText("ctaVar."+p[0]+".title","العنوان",v.title)+fText("ctaVar."+p[0]+".btn","نص الزر",v.btn)+'</div></div>';}).join("");
   h+=HR+'<h4 style="margin-bottom:14px;">حسابات التواصل</h4>';
   h+=C.social.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.label)+'</b>'+listTools("social",i,C.social.length)+'</div>'+fCheck("social."+i+".show","ظاهر",x.show)+'<div class="fld-row">'+fText("social."+i+".label","الاسم",x.label)+'<div class="fld"><label>الأيقونة</label><select data-bind="social.'+i+'.icon">'+["ig","tt","sc","x","yt","li"].map(function(k){return '<option value="'+k+'"'+(k===x.icon?" selected":"")+'>'+k+'</option>';}).join("")+'</select></div></div>'+fText("social."+i+".url","الرابط",x.url)+'</div>';}).join("")+addBtn("social","إضافة حساب");}
  else if(tab==="settings"){var cfg=getFbCfg()||{};

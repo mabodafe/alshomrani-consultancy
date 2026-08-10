@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alshomrani-consultancy-shamrani-kanban.vercel.app/sitemap.xml
+Sitemap: https://alshomrani-consultancy.vercel.app/sitemap.xml

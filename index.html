@@ -620,6 +620,23 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   .mbar .tel{background:var(--charcoal);color:#fff;}
   .mbar svg{width:20px;height:20px;}
 }
+
+.media-item iframe.vert{aspect-ratio:9/16;max-height:70vh;}
+.media-item img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;}
+.media-item .cap{display:block;padding:12px 14px;font-size:14px;font-weight:800;}
+.media-item .cap small{display:block;font-weight:500;color:var(--charcoal-soft);margin-top:3px;}
+.media-item{transition:transform .35s ease, box-shadow .35s ease;}
+.media-item:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+.svc-card img,.ccard img{width:100%;height:auto;display:block;border-radius:12px;}
+.mnav-social{display:flex;gap:16px;justify-content:center;margin-top:6px;}
+.mnav-social a{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;}
+.mnav-social svg{width:20px;height:20px;}
+@media (prefers-reduced-motion:no-preference){
+  .media-item img{transition:transform .5s ease;}
+  .media-item:hover img{transform:scale(1.04);}
+}
+
+.hero-art.art-fallback{background:linear-gradient(135deg,rgba(184,34,43,.10),rgba(169,130,79,.14));border-radius:24px;}
 </style>
 </head>
 <body>
@@ -643,7 +660,8 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 <div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="قائمة التنقل">
   <button class="close" aria-label="إغلاق القائمة"></button>
   <div id="mnavLinks"></div>
-  <div class="mnav-btns">
+  <div class="mnav-social" id="mnavSocial"></div>
+    <div class="mnav-btns">
     <a class="btn btn-whatsapp" data-wa="" id="mnavWa">استشارة مجانية</a>
     <a class="btn btn-outline" style="border-color:#fff;color:#fff;" id="mnavTel" href="#"></a>
   </div>
@@ -747,7 +765,7 @@ nav:[{id:"home",label:"الرئيسية",route:"/",show:true},{id:"services",lab
 hero:{eyebrow:"استشارات هندسية متكاملة منذ 2016",titleA:"من الأرض إلى الرخصة،",titleB:"ومن المخطط إلى",titleEm:"التسليم",
  lead:"شركة سعد مفرح الشمراني للاستشارات الهندسية تجمع لك التصميم، الرخص والمعاملات البلدية، الأعمال المساحية، الإشراف الهندسي، وأنظمة الأمن والسلامة — تحت سقف واحد، بفريق مرخّص ومعتمد رسمياً، وأربعة فروع داخل المملكة.",
  ctaPrimary:"احصل على استشارة مجانية",ctaSecondary:"تعرّف على خدماتنا",badgeTop:"معتمدون لدى الهيئة العامة للعقار",
- badgeFloat:"تصميم، رخص، مساحة وإشراف هندسي كامل",heroImage:""},
+ badgeFloat:"تصميم، رخص، مساحة وإشراف هندسي كامل",heroImage:"assets/media/villa-render-lg.webp"},
 stats:[{id:uid("st"),value:"2016",label:"سنة التأسيس"},{id:uid("st"),value:"4 فروع",label:"الرياض (فرعان)، بيشة، مكة المكرمة"},
  {id:uid("st"),value:"+40",label:"خدمة هندسية مفصّلة"},{id:uid("st"),value:"+20",label:"مشروع منفّذ وموثّق"}],
 credentials:[{id:uid("cr"),icon:"checkc",text:"ترخيص الهيئة السعودية للمهندسين رقم 5110104772"},
@@ -759,7 +777,7 @@ services:[
 {id:"design",icon:"pencil",name:"خدمات التصميم",intro:"حزمة تصميم متكاملة تغطي كل التخصصات — من المخطط المعماري والإنشائي إلى الديكور الداخلي واللاندسكيب — بمراجعة داخلية متبادلة قبل التسليم.",
  bullets:["تصاميم معمارية وإنشائية","تصاميم كهربائية وميكانيكية","تصاميم كفاءة الطاقة ومخططات السلامة","واجهات خارجية، لاندسكيب، وديكور داخلي"],
  details:["تصاميم إنشائية","تصاميم معمارية","تصاميم كهربائية","تصاميم ميكانيكية","تصاميم كفاءة الطاقة","تصميم مخططات السلامة","تصاميم الواجهات الخارجية","تصاميم اللاندسكيب","تصاميم الديكور الداخلي"],
- suited:"فلل، عمائر سكنية، مبانٍ تجارية وإدارية، منشآت تعليمية وصحية وفندقية",image:"",show:true},
+ suited:"فلل، عمائر سكنية، مبانٍ تجارية وإدارية، منشآت تعليمية وصحية وفندقية",image:"assets/media/floor-plan-md.webp",show:true},
 {id:"permits",icon:"doc",name:"الرخص والمعاملات البلدية",intro:"ستّ عشرة خدمة ترخيصية نتولّاها بالكامل نيابةً عنك — من فتح المعاملة حتى صدور الرخصة أو شهادة الإشغال، دون أن تراجع أي جهة بنفسك.",
  bullets:["إصدار وتجديد رخص البناء والهدم والترميم","شهادات الإشغال وإتمام البناء","تصحيح أوضاع المباني القائمة","تجزئة ودمج الصكوك وتحديثها"],
  details:["إصدار رخص بناء","إصدار رخص هدم","إصدار رخص الترميم","تجديد رخص البناء","إضافة وتعديل مكونات البناء","إصدار شهادة الإشغال","رخص تسوير وملاحق","نقل ملكية رخصة البناء","إصدار رخصة تصحيح وضع مبنى قائم","إصدار تقرير فني","إصدار شهادة إتمام بناء","تجزئة ودمج الصكوك","إصدار رخصة تجهيز موقع","إصدار رخصة حفر بئر","تعديل الصكوك الإلكترونية","تحديث الصكوك الورقية"],
@@ -767,11 +785,11 @@ services:[
 {id:"survey",icon:"chart",name:"الأعمال المساحية وتخطيط الأراضي",intro:"رفع مساحي دقيق ومعاملات أراضٍ مكتملة — من الإقرار المساحي حتى فرز الوحدات العقارية.",
  bullets:["إصدار الإقرارات المساحية","أعمال الرفع المساحي","تجزئة الأراضي","فرز الوحدات العقارية"],
  details:["إصدار إقرارات مساحية","أعمال الرفع المساحي","تجزئة الأراضي","فرز الوحدات العقارية"],
- suited:"أراضٍ خام، مبانٍ قائمة، مجمعات سكنية وتجارية",image:"",show:true},
+ suited:"أراضٍ خام، مبانٍ قائمة، مجمعات سكنية وتجارية",image:"assets/media/land-surveying-md.webp",show:true},
 {id:"supervision",icon:"helmet",name:"خدمات الإشراف الهندسي",intro:"إشراف ميداني موثّق على كل مراحل التنفيذ، بما فيها مشاريع البيع على الخارطة المعتمدة من الهيئة العامة للعقار.",
  bullets:["الإشراف على جميع مراحل المشاريع الإنشائية والمعمارية","الإشراف على مشاريع البيع على الخارطة","الإشراف على متطلبات الدفاع المدني","حساب الكميات"],
  details:["الإشراف على جميع مراحل وأعمال المشاريع الإنشائية والمعمارية","الإشراف على مشاريع البيع على الخارطة","الإشراف على الدفاع المدني","حساب الكميات"],
- suited:"مشاريع سكنية وتجارية، ومشاريع تطوير عقاري خاضعة لإشراف REGA",image:"",show:true},
+ suited:"مشاريع سكنية وتجارية، ومشاريع تطوير عقاري خاضعة لإشراف REGA",image:"assets/media/site-supervision-md.webp",show:true},
 {id:"safety",icon:"fire",name:"خدمات الأمن والسلامة",intro:"تصميم أنظمة السلامة وفق المعايير العالمية واعتمادها لدى الدفاع المدني — شرط أساسي لتشغيل أي منشأة.",
  bullets:["أنظمة الإنذار المبكر وإطفاء الحريق","مسالك الهروب وخطط الإخلاء","الحسابات الهيدروليكية لأنظمة الإطفاء","اعتماد المخططات من الجهات المختصة"],
  details:["تصميم كافة أنظمة السلامة الهندسية وفق معايير عالمية","تصميم أنظمة الإنذار المبكر وإطفاء الحريق","تصميم مسالك الهروب وخطط الإخلاء حسب متطلبات الدفاع المدني","عمل الحسابات الهيدروليكية لأنظمة الإطفاء","الإشراف على تركيبات أنظمة الإطفاء والإنذار والتأكد من مطابقة المخططات","دراسة وتحليل مواد التشييد وتطبيق اشتراطات الدفاع المدني","اعتماد المخططات من الجهات ذات الاختصاص"],
@@ -779,7 +797,7 @@ services:[
 {id:"pm",icon:"pulse",name:"خدمات إدارة المشاريع",intro:"تقديم الاستشارات والدراسات الهندسية والفنية والمالية للمشاريع، وتمثيل المالك بكافة مسؤولياته لتنفيذ المشروع.",
  bullets:["الدراسات الهندسية والفنية والمالية","تمثيل المالك أمام كل الأطراف","متابعة التنفيذ ونسب الإنجاز","تقارير إدارية دورية"],
  details:["تقديم الاستشارات الهندسية والفنية للمشاريع","إعداد الدراسات المالية وتقدير التكاليف","تمثيل المالك بكافة مسؤولياته أمام المقاولين والجهات","متابعة الجدول الزمني ونسب الإنجاز","مراجعة العقود والمستخلصات وأوامر التغيير","تقارير إدارية دورية لصاحب المشروع"],
- suited:"مشاريع متوسطة وكبيرة تحتاج طرفاً محايداً يمثّل مصلحة المالك",image:"",show:true}],
+ suited:"مشاريع متوسطة وكبيرة تحتاج طرفاً محايداً يمثّل مصلحة المالك",image:"assets/media/structural-model-md.webp",show:true}],
 why:{eyebrow:"من نحن",title:"ليش عملاؤنا يثقون بشركة الشمراني؟",
  quote:"هدفنا نحوّل فكرتك إلى مبنى واقعي، بأقل عناء وأوضح اتفاق — من أول مكالمة إلى تسليم المفتاح.",
  author:"م. سعد مفرح الشمراني",authorRole:"المدير العام",authorInitials:"سع",
@@ -834,7 +852,7 @@ projectsPage:{title:"مشاريع <em>منفّذة وموثّقة</em>",
  {id:uid("pj"),name:"تصاميم ثلاثية الأبعاد — نماذج معمارية",sector:"تصميم 3D",loc:"الرياض",scope:"نمذجة ومناظير",desc:"نماذج ومناظير ثلاثية الأبعاد تُظهر شكل المبنى ومواد التشطيب قبل بدء التنفيذ.",image:"",show:true},
  {id:uid("pj"),name:"تصميم ثلاثي الأبعاد — مطعم",sector:"تصميم 3D",loc:"الرياض",scope:"تصميم داخلي ونمذجة",desc:"تصميم داخلي لمطعم مع نمذجة ثلاثية الأبعاد للإضاءة والتشطيبات وتوزيع الجلسات.",image:"",show:true},
  {id:uid("pj"),name:"أعمال مساحية وصكوك",sector:"خدمات مساحية",loc:"الرياض · بيشة · مكة المكرمة",scope:"رفع مساحي وفرز",desc:"رفع مساحي وإصدار إقرارات، وتجزئة ودمج صكوك، وفرز وحدات عقارية لعملاء أفراد ومطوّرين.",image:"",show:true}]},
-gallery:{show:true,eyebrow:"معرض الأعمال",title:"صور وفيديوهات من مشاريعنا",text:"",items:[]},
+gallery:{show:true,eyebrow:"معرض الأعمال",title:"صور وفيديوهات من مشاريعنا",text:"لقطات من مشاريع ومواقع نعمل عليها فعلياً.",items:[{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة"}]},
 about:{title:"شركة هندسية سعودية، <em>من فرع واحد إلى أربعة</em>",
  sub:"تأسست عام 2016 لتكون إحدى الشركات الرائدة في الاستشارات الهندسية، واضعةً الجودة والدقة والالتزام في صميم أعمالها.",
  storyEyebrow:"قصة الشركة",storyTitle:"من فرع واحد في الرياض إلى شبكة تخدم أهم مناطق المملكة",
@@ -922,8 +940,14 @@ function mediaEl(m){
  if(!u)return '<div style="aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:var(--charcoal-soft);font-size:13px;">لا يوجد رابط</div>';
  var y=u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
  if(y)return '<iframe src="https://www.youtube.com/embed/'+esc(y[1])+'" title="'+esc(m.title||"")+'" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+ var tk=u.match(/tiktok\.com\/.*?\/video\/(\d+)/);
+ if(tk)return '<iframe class="vert" src="https://www.tiktok.com/player/v1/'+esc(tk[1])+'?rel=0&description=0" title="'+esc(m.title||"TikTok")+'" loading="lazy" allow="autoplay;fullscreen;encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+ var ig=u.match(/instagram\.com\/(p|reel|tv)\/([\w-]+)/);
+ if(ig)return '<iframe class="vert" src="https://www.instagram.com/'+esc(ig[1])+'/'+esc(ig[2])+'/embed" title="'+esc(m.title||"Instagram")+'" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
  if(m.type==="video"||/\.(mp4|webm|ogg|mov)(\?|$)/i.test(u))return '<video src="'+esc(u)+'" controls preload="metadata" playsinline></video>';
- return '<img src="'+esc(u)+'" alt="'+esc(m.title||"")+'" loading="lazy" decoding="async">';}
+ var ss="",full=u,mm=u.match(/^(.*)-(sm|md|lg)\.webp$/);
+ if(mm){ss=' srcset="'+esc(mm[1])+'-sm.webp 500w, '+esc(mm[1])+'-md.webp 900w, '+esc(mm[1])+'-lg.webp 1800w" sizes="(max-width:640px) 92vw, (max-width:1020px) 46vw, 30vw"';full=mm[1]+'-lg.webp';}
+ return '<img src="'+esc(u)+'"'+ss+' data-full="'+esc(full)+'" alt="'+esc(m.title||"")+'" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">';}
 var ROUTES=["/","/services","/projects","/about","/contact"];
 var PAGEID={"/":"p-home","/services":"p-services","/projects":"p-projects","/about":"p-about","/contact":"p-contact"};
 var rendered={},io=null;
@@ -950,7 +974,7 @@ function observeReveal(){
  if(!io)io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.1,rootMargin:"0px 0px -40px 0px"});
  els.forEach(function(e){io.observe(e);});}
 function heroArt(img,badges){
- var inner=img?'<img src="'+esc(img)+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">':'<div class="art-blob"></div><div class="art-grid"></div>'+VILLA_SVG;
+ var inner=img?'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async" onerror="this.parentNode.classList.add(\'art-fallback\');this.remove();" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">':'<div class="art-blob"></div><div class="art-grid"></div>'+VILLA_SVG;
  return inner+(badges||"");}
 function ctaBlock(route){
  var v=(C.ctaVar&&C.ctaVar[route])||{};
@@ -1046,6 +1070,7 @@ function renderChrome(){
  $(".burger").innerHTML=I.menu;$(".mnav .close").innerHTML=I.close;$(".wa-float").innerHTML=I.wa;
  $("#navWa").innerHTML=I.wa+" واتساب";$("#mnavWa").innerHTML=I.wa+" استشارة مجانية";
  var soc=C.social.filter(function(s){return s.show!==false;}).map(function(s){return '<a href="'+esc(s.url)+'" target="_blank" rel="noopener" aria-label="'+esc(s.label)+'">'+icon(s.icon)+'</a>';}).join("");
+ var _ms=$("#mnavSocial");if(_ms)_ms.innerHTML=soc;
  var navList=links.map(function(n){return '<li><a href="#'+esc(n.route)+'">'+esc(n.label)+'</a></li>';}).join("");
  var svcList=C.services.filter(function(s){return s.show!==false;}).map(function(s){return '<li><a href="#/services~svc-'+esc(s.id)+'">'+esc(s.name)+'</a></li>';}).join("");
  $("#siteFooter").innerHTML='<div class="wrap"><div class="foot-grid"><div class="foot-brand"><a href="#/" class="brand"><img src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="40" height="40" loading="lazy"><span class="brand-text"><b>'+esc(C.site.brandName)+'</b><span>'+esc(C.site.brandSub)+'</span></span></a><p>'+esc(C.footer.about)+'</p><div class="social-row">'+soc+'</div></div><div class="foot-col"><h5>روابط سريعة</h5><ul>'+navList+'</ul></div><div class="foot-col"><h5>خدماتنا</h5><ul>'+svcList+'</ul></div><div class="foot-col"><h5>تواصل معنا</h5><ul><li>'+I.pin+' '+esc(C.site.address)+'</li><li>'+I.phone+' <a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></li><li>'+I.mail+' <a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></li></ul></div></div><div class="foot-bottom"><span>© '+new Date().getFullYear()+' '+esc(C.site.legalName)+'. '+esc(C.footer.copyright)+'</span><span>سجل تجاري '+esc(C.site.crNumber)+' — ترخيص الهيئة السعودية للمهندسين '+esc(C.site.sceNumber)+'</span></div></div>';
@@ -1243,7 +1268,7 @@ function admRender(tab){
   h+=fCheck("projectsPage.showNote","إظهار ملاحظة السرية",p.showNote)+fText("projectsPage.noteTitle","عنوان الملاحظة",p.noteTitle)+fArea("projectsPage.noteText","نص الملاحظة",p.noteText)+HR;
   h+=p.items.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.name||"مشروع")+'</b>'+listTools("projectsPage.items",i,p.items.length)+'</div>'+fCheck("projectsPage.items."+i+".show","ظاهر في الموقع",x.show)+'<div class="fld-row">'+fText("projectsPage.items."+i+".name","اسم المشروع",x.name)+fText("projectsPage.items."+i+".sector","القطاع",x.sector)+'</div><div class="fld-row">'+fText("projectsPage.items."+i+".loc","الموقع",x.loc)+fText("projectsPage.items."+i+".scope","النطاق",x.scope)+'</div>'+fArea("projectsPage.items."+i+".desc","الوصف",x.desc)+fImg("projectsPage.items."+i+".image","صورة المشروع",x.image)+'</div>';}).join("")+addBtn("projectsPage.items","إضافة مشروع");}
  else if(tab==="gallery"){var g=C.gallery;
-  h+='<div class="hint">ضع رابط أي <b>صورة</b> أو <b>فيديو mp4</b> أو رابط <b>يوتيوب</b> — يتعرّف الموقع على النوع تلقائياً.</div>';
+  h+='<div class="hint">ارفع صورة من جهازك، أو الصق رابط <b>صورة</b> أو <b>فيديو mp4</b> أو <b>يوتيوب</b> أو <b>تيك توك</b> أو <b>انستقرام</b> — يتعرّف الموقع على النوع تلقائياً.</div>';
   h+=fCheck("gallery.show","إظهار المعرض",g.show);
   h+='<div class="fld-row">'+fText("gallery.eyebrow","عنوان صغير",g.eyebrow)+fText("gallery.title","عنوان المعرض",g.title)+'</div>'+fArea("gallery.text","نص تعريفي (اختياري)",g.text)+HR;
   h+=(g.items.length?"":'<p style="color:var(--charcoal-soft);font-size:14px;margin-bottom:16px;">لا توجد عناصر بعد — اضغط «إضافة عنصر».</p>');
@@ -1491,7 +1516,7 @@ function initLightbox(){
   if(t===lb){close();return;}
   if(!t||!t.closest)return;
   var fig=t.closest(".media-item");
-  if(fig&&t.tagName==="IMG"&&t.src){e.preventDefault();im.src=t.src;cp.textContent=t.alt||"";lb.classList.add("open");document.body.style.overflow="hidden";}
+  if(fig&&t.tagName==="IMG"&&t.src){e.preventDefault();im.src=t.getAttribute("data-full")||t.src;cp.textContent=t.alt||"";lb.classList.add("open");document.body.style.overflow="hidden";}
  });
  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&lb.classList.contains("open"))close();});}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){boot();initLightbox();});else {boot();initLightbox();}

@@ -785,9 +785,17 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   .clients{padding:52px 0;}
   .cta-banner{padding:52px 0;}
 }
-@media (max-width:400px){
-  .proc-grid{grid-template-columns:1fr;}
-  .proc-step{padding:0 4px 20px;}
+
+/* ===== tighten why + process on phones ===== */
+@media (max-width:640px){
+  .proc-grid{grid-template-columns:1fr 1fr;gap:6px 4px;}
+  .proc-step{padding:0 6px 14px;}
+  .proc-step h4{font-size:15px;margin-bottom:6px;line-height:1.4;}
+  .proc-step p{font-size:13px;line-height:1.65;}
+  .why-grid{gap:26px;}
+  .why-visual .q{font-size:17px;line-height:1.8;}
+  .why-list li,.why li{font-size:14px;line-height:1.7;}
+  .why-list h4{font-size:15.5px;}
 }
 </style>
 </head>

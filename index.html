@@ -621,7 +621,7 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   .mbar svg{width:20px;height:20px;}
 }
 
-.media-item iframe.vert{aspect-ratio:9/16;max-height:70vh;}
+.media-item iframe.vert{aspect-ratio:9/16;}
 .media-item img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;}
 .media-item .cap{display:block;padding:12px 14px;font-size:14px;font-weight:800;}
 .media-item .cap small{display:block;font-weight:500;color:var(--charcoal-soft);margin-top:3px;}
@@ -637,6 +637,55 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 }
 
 .hero-art.art-fallback{background:linear-gradient(135deg,rgba(184,34,43,.10),rgba(169,130,79,.14));border-radius:24px;}
+
+/* ===== cinematic hero ===== */
+.hero-cine{
+  position:relative;padding:0;min-height:min(86vh,720px);
+  display:flex;align-items:flex-end;overflow:hidden;background:var(--charcoal);
+}
+.hero-cine .hero-media{position:absolute;inset:0;z-index:0;}
+.hero-cine .hero-bg{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-cine .hero-scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(270deg, rgba(20,17,15,.90) 0%, rgba(20,17,15,.74) 38%, rgba(20,17,15,.34) 70%, rgba(20,17,15,.18) 100%),
+             linear-gradient(0deg, rgba(20,17,15,.55) 0%, transparent 42%);
+}
+.hero-cine .hero-inner{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:120px 28px 74px;width:100%;}
+.hero-cine .hero-copy{max-width:660px;}
+.hero-cine .eyebrow{color:#E9C68A;}
+.hero-cine h1{color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.35);}
+.hero-cine h1 em{color:#F0A5AB;font-style:normal;}
+.hero-cine p{color:rgba(255,255,255,.90);max-width:600px;}
+.hero-cine .hero-stats{border-top-color:rgba(255,255,255,.24);}
+.hero-cine .hero-stats b,.hero-cine .hero-stats strong{color:#fff;}
+.hero-cine .hero-stats span,.hero-cine .hero-stats small{color:rgba(255,255,255,.78);}
+.hero-down{
+  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:3;
+  width:34px;height:52px;border:2px solid rgba(255,255,255,.55);border-radius:20px;
+}
+.hero-down::after{
+  content:"";position:absolute;top:9px;left:50%;margin-left:-3px;
+  width:6px;height:6px;border-radius:50%;background:#fff;
+  animation:hscroll 1.9s ease-in-out infinite;
+}
+@keyframes hscroll{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(22px)}}
+@keyframes kenburns{0%{transform:scale(1.02) translate3d(0,0,0)}100%{transform:scale(1.12) translate3d(0,-1.5%,0)}}
+.kenburns{animation:kenburns 26s ease-in-out infinite alternate;}
+@media (max-width:820px){
+  .hero-cine{min-height:auto;}
+  .hero-cine .hero-inner{padding:96px 20px 60px;}
+  .hero-cine .hero-scrim{background:linear-gradient(0deg, rgba(20,17,15,.92) 12%, rgba(20,17,15,.66) 55%, rgba(20,17,15,.42) 100%);}
+  .hero-down{display:none;}
+}
+@media (prefers-reduced-motion:reduce){.kenburns{animation:none;}.hero-down::after{animation:none;}}
+
+/* ===== gallery: masonry, no dead white space ===== */
+.media-grid{display:block;column-count:3;column-gap:20px;}
+.media-item{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;
+  display:inline-block;width:100%;margin:0 0 20px;}
+@media (max-width:1020px){.media-grid{column-count:2;}}
+@media (max-width:640px){.media-grid{column-count:1;}}
+.media-item iframe{width:100%;display:block;border:0;background:var(--charcoal);}
 </style>
 </head>
 <body>
@@ -765,7 +814,7 @@ nav:[{id:"home",label:"الرئيسية",route:"/",show:true},{id:"services",lab
 hero:{eyebrow:"استشارات هندسية متكاملة منذ 2016",titleA:"من الأرض إلى الرخصة،",titleB:"ومن المخطط إلى",titleEm:"التسليم",
  lead:"شركة سعد مفرح الشمراني للاستشارات الهندسية تجمع لك التصميم، الرخص والمعاملات البلدية، الأعمال المساحية، الإشراف الهندسي، وأنظمة الأمن والسلامة — تحت سقف واحد، بفريق مرخّص ومعتمد رسمياً، وأربعة فروع داخل المملكة.",
  ctaPrimary:"احصل على استشارة مجانية",ctaSecondary:"تعرّف على خدماتنا",badgeTop:"معتمدون لدى الهيئة العامة للعقار",
- badgeFloat:"تصميم، رخص، مساحة وإشراف هندسي كامل",heroImage:"assets/media/villa-render-lg.webp"},
+ badgeFloat:"تصميم، رخص، مساحة وإشراف هندسي كامل",heroImage:"assets/media/villa-render-lg.webp",heroVideo:"",heroFull:true},
 stats:[{id:uid("st"),value:"2016",label:"سنة التأسيس"},{id:uid("st"),value:"4 فروع",label:"الرياض (فرعان)، بيشة، مكة المكرمة"},
  {id:uid("st"),value:"+40",label:"خدمة هندسية مفصّلة"},{id:uid("st"),value:"+20",label:"مشروع منفّذ وموثّق"}],
 credentials:[{id:uid("cr"),icon:"checkc",text:"ترخيص الهيئة السعودية للمهندسين رقم 5110104772"},
@@ -996,7 +1045,15 @@ function renderHome(){
  var st=C.process.steps.map(function(p){return '<div class="proc-step reveal"><div class="n">'+esc(p.n)+'</div><h4>'+esc(p.title)+'</h4><p>'+esc(p.text)+'</p></div>';}).join("");
  var cl=C.clients.items.map(function(c){return '<div class="client-pill reveal">'+esc(c.name)+(c.sector?'<small>'+esc(c.sector)+'</small>':'')+'</div>';}).join("");
  var pt=C.clients.partners.map(function(p){return '<span>'+esc(p)+'</span>';}).join("");
- return '<section class="hero" id="top"><div class="hero-grid"><div class="hero-copy reveal"><div class="eyebrow">'+esc(h.eyebrow)+'</div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn btn-outline" href="#/services">'+esc(h.ctaSecondary)+'</a></div><div class="hero-stats">'+stats+'</div></div><div class="hero-art reveal">'+heroArt(h.heroImage,(h.badgeTop?'<div class="badge-top">'+I.star+' '+esc(h.badgeTop)+'</div>':'')+(h.badgeFloat?'<div class="badge-float"><span class="ic">'+I.house+'</span> '+esc(h.badgeFloat)+'</div>':''))+'</div></div></section>'+
+ var _hm="";
+ if(h.heroVideo)_hm='<video class="hero-bg" autoplay muted loop playsinline preload="metadata"'+(h.heroImage?' poster="'+esc(h.heroImage)+'"':'')+'><source src="'+esc(h.heroVideo)+'"></video>';
+ else if(h.heroImage)_hm='<img class="hero-bg kenburns" src="'+esc(h.heroImage)+'" alt="" fetchpriority="high" decoding="async" onerror="this.remove();">';
+ var _copy='<div class="hero-copy reveal"><div class="eyebrow">'+esc(h.eyebrow)+'</div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div><div class="hero-stats">'+stats+'</div></div>';
+ var _badges=(h.badgeTop?'<div class="badge-top">'+I.star+' '+esc(h.badgeTop)+'</div>':'')+(h.badgeFloat?'<div class="badge-float"><span class="ic">'+I.house+'</span> '+esc(h.badgeFloat)+'</div>':'');
+ var _hero=(h.heroFull!==false&&_hm)
+  ? '<section class="hero hero-cine" id="top"><div class="hero-media">'+_hm+'<span class="hero-scrim"></span></div><div class="hero-inner">'+_copy+'</div><a class="hero-down" href="#/services" aria-label="تصفّح الخدمات"></a></section>'
+  : '<section class="hero" id="top"><div class="hero-grid">'+_copy+'<div class="hero-art reveal">'+heroArt(h.heroImage,_badges)+'</div></div></section>';
+ return _hero+
  credStrip()+
  '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-grid">'+cards+'</div></div></section>'+
  '<section class="why"><div class="wrap"><div class="why-grid"><div class="why-visual reveal"><p class="q">"'+esc(C.why.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(C.why.author)+'</b><span>'+esc(C.why.authorRole)+'</span></div></div></div><div class="why-list"><div class="sec-head reveal" style="margin-bottom:6px;"><div class="eyebrow">'+esc(C.why.eyebrow)+'</div><h2>'+esc(C.why.title)+'</h2></div>'+wl+'</div></div></div></section>'+
@@ -1054,7 +1111,7 @@ function renderPage(r){
  else if(r==="/projects")el.innerHTML=renderProjects();
  else if(r==="/about")el.innerHTML=renderAbout();
  else if(r==="/contact")el.innerHTML=renderContact();
- bindWa(el);bindProjTabs(el);}
+ bindWa(el);bindProjTabs(el);try{animateCounters(el);}catch(e){}}
 function bindWa(root){$$("[data-wa]",root).forEach(function(el){el.setAttribute("href",waLink(el.getAttribute("data-wa")));el.setAttribute("target","_blank");el.setAttribute("rel","noopener");});}
 function renderChrome(){
  $("#navName").textContent=C.site.brandName;$("#navSub").textContent=C.site.brandSub;
@@ -1268,7 +1325,7 @@ function admRender(tab){
   h+=fText("hero.titleEm","الكلمة المميزة بالأحمر",s.titleEm)+fArea("hero.lead","النص التعريفي",s.lead);
   h+='<div class="fld-row">'+fText("hero.ctaPrimary","زر أساسي",s.ctaPrimary)+fText("hero.ctaSecondary","زر ثانوي",s.ctaSecondary)+'</div>';
   h+='<div class="fld-row">'+fText("hero.badgeTop","الشارة العلوية",s.badgeTop)+fText("hero.badgeFloat","الشارة السفلية",s.badgeFloat)+'</div>';
-  h+=fImg("hero.heroImage","صورة الواجهة (اختياري)",s.heroImage,"اتركه فارغاً للرسم الهندسي");
+  h+=fImg("hero.heroImage","صورة الواجهة (تظهر خلف النص)",s.heroImage,"اتركه فارغاً للرسم الهندسي")+fText("hero.heroVideo","رابط فيديو الواجهة mp4 (اختياري)",s.heroVideo,"يعمل تلقائياً وصامتاً ومتكرراً. الفيديو له الأولوية على الصورة، والصورة تظهر ريثما يُحمّل")+fCheck("hero.heroFull","واجهة بعرض الشاشة كاملاً",s.heroFull!==false);
   h+=HR+'<h4 style="margin-bottom:14px;">شريط الاعتمادات</h4>';
   h+=C.credentials.map(function(c,i){return '<div class="rep"><div class="rep-hd"><b>اعتماد '+(i+1)+'</b>'+listTools("credentials",i,C.credentials.length)+'</div>'+fSelIcon("credentials."+i+".icon","الأيقونة",c.icon)+fText("credentials."+i+".text","النص",c.text)+'</div>';}).join("")+addBtn("credentials","إضافة اعتماد");}
  else if(tab==="stats"){
@@ -1524,6 +1581,22 @@ function boot(){
   initFirebase().then(function(){fb.auth.onAuthStateChanged(function(u){if(u&&!isAdmin)enterAdmin();});}).catch(function(){});
   hydrate();}
  window.ALS={get content(){return C;},save:doSave,render:rerenderAll,test:selfTest,go:go,admin:openAdminFlow,publish:publishContent};}
+function animateCounters(root){
+ var els=$$(".hero-stats b, .hero-stats strong",root||document);
+ if(!els.length||!window.IntersectionObserver)return;
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(!e.isIntersecting)return; io.unobserve(e.target);
+  var el=e.target,txt=(el.textContent||"").trim(),m=txt.match(/^(\D*)(\d[\d,]*)(.*)$/);
+  if(!m)return;
+  var pre=m[1],end=parseInt(m[2].replace(/,/g,""),10),post=m[3];
+  if(!isFinite(end)||end<2)return;
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  var t0=null,dur=1100;
+  function step(t){ if(!t0)t0=t; var p=Math.min(1,(t-t0)/dur), e2=1-Math.pow(1-p,3);
+   el.textContent=pre+Math.round(end*e2).toLocaleString("en-US")+post;
+   if(p<1)requestAnimationFrame(step); }
+  requestAnimationFrame(step);});},{threshold:.4});
+ els.forEach(function(el){io.observe(el);});}
 function initLightbox(){
  var lb=document.getElementById("lbox");if(!lb)return;
  var im=document.getElementById("lboxImg"),cp=document.getElementById("lboxCap");
@@ -1537,7 +1610,7 @@ function initLightbox(){
   if(fig&&t.tagName==="IMG"&&t.src){e.preventDefault();im.src=t.getAttribute("data-full")||t.src;cp.textContent=t.alt||"";lb.classList.add("open");document.body.style.overflow="hidden";}
  });
  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&lb.classList.contains("open"))close();});}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){boot();initLightbox();});else {boot();initLightbox();}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){boot();initLightbox();animateCounters();});else {boot();initLightbox();animateCounters();}
 </script>
 </body>
 </html>

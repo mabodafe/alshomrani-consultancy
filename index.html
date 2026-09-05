@@ -232,7 +232,34 @@ header.nav{
 
 /* ================= SERVICES ================= */
 .services{padding:110px 0 90px;}
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.svc-rail{position:relative;}
+.svc-grid{
+  display:flex;gap:22px;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  padding:6px 4px 18px;margin:0 -4px;
+  scrollbar-width:thin;scrollbar-color:var(--gold) transparent;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+}
+.svc-grid::-webkit-scrollbar{height:7px;}
+.svc-grid::-webkit-scrollbar-thumb{background:rgba(169,130,79,.55);border-radius:10px;}
+.svc-grid::-webkit-scrollbar-track{background:transparent;}
+.svc-card{flex:0 0 340px;scroll-snap-align:start;}
+.svc-media{margin:-34px -30px 22px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;background:var(--charcoal);}
+.svc-media img{width:100%;height:194px;object-fit:cover;display:block;transition:transform .55s ease;}
+.svc-card:hover .svc-media img{transform:scale(1.06);}
+.svc-body{display:flex;flex-direction:column;flex:1;}
+.rail-btn{
+  position:absolute;top:calc(50% - 26px);z-index:5;
+  width:48px;height:48px;border-radius:50%;cursor:pointer;
+  background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);
+  color:var(--charcoal);font-size:30px;line-height:1;display:flex;align-items:center;justify-content:center;
+  transition:background .25s ease,color .25s ease,opacity .25s ease;
+}
+.rail-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.rail-btn.prev{right:-14px;} .rail-btn.next{left:-14px;}
+.rail-btn[disabled]{opacity:.28;cursor:default;}
+@media (max-width:1020px){.rail-btn{display:none;} .svc-card{flex:0 0 300px;}}
+@media (max-width:640px){.svc-card{flex:0 0 84vw;}}
 .svc-card{
   background:var(--paper);border-radius:var(--radius);
   padding:34px 30px;border:1px solid var(--line);
@@ -259,8 +286,8 @@ header.nav{
 .svc-card.dark .svc-ic{background:rgba(255,255,255,.1);color:var(--red-bright);}
 .svc-card.dark li{color:rgba(255,255,255,.72);}
 .svc-card.dark .svc-cta{color:var(--red-bright);}
-@media (max-width:980px){.svc-grid{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:640px){.svc-grid{grid-template-columns:1fr;}}
+@media (max-width:980px){}
+@media (max-width:640px){}
 
 /* ================= WHY ================= */
 .why{background:var(--cream-soft);padding:100px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
@@ -830,7 +857,7 @@ services:[
 {id:"permits",icon:"doc",name:"الرخص والمعاملات البلدية",intro:"ستّ عشرة خدمة ترخيصية نتولّاها بالكامل نيابةً عنك — من فتح المعاملة حتى صدور الرخصة أو شهادة الإشغال، دون أن تراجع أي جهة بنفسك.",
  bullets:["إصدار وتجديد رخص البناء والهدم والترميم","شهادات الإشغال وإتمام البناء","تصحيح أوضاع المباني القائمة","تجزئة ودمج الصكوك وتحديثها"],
  details:["إصدار رخص بناء","إصدار رخص هدم","إصدار رخص الترميم","تجديد رخص البناء","إضافة وتعديل مكونات البناء","إصدار شهادة الإشغال","رخص تسوير وملاحق","نقل ملكية رخصة البناء","إصدار رخصة تصحيح وضع مبنى قائم","إصدار تقرير فني","إصدار شهادة إتمام بناء","تجزئة ودمج الصكوك","إصدار رخصة تجهيز موقع","إصدار رخصة حفر بئر","تعديل الصكوك الإلكترونية","تحديث الصكوك الورقية"],
- suited:"جميع المباني السكنية والتجارية داخل نطاق أمانات الرياض وعسير والعاصمة المقدسة",image:"",show:true},
+ suited:"جميع المباني السكنية والتجارية داخل نطاق أمانات الرياض وعسير والعاصمة المقدسة",image:"assets/media/permits-md.webp",show:true},
 {id:"survey",icon:"chart",name:"الأعمال المساحية وتخطيط الأراضي",intro:"رفع مساحي دقيق ومعاملات أراضٍ مكتملة — من الإقرار المساحي حتى فرز الوحدات العقارية.",
  bullets:["إصدار الإقرارات المساحية","أعمال الرفع المساحي","تجزئة الأراضي","فرز الوحدات العقارية"],
  details:["إصدار إقرارات مساحية","أعمال الرفع المساحي","تجزئة الأراضي","فرز الوحدات العقارية"],
@@ -842,7 +869,7 @@ services:[
 {id:"safety",icon:"fire",name:"خدمات الأمن والسلامة",intro:"تصميم أنظمة السلامة وفق المعايير العالمية واعتمادها لدى الدفاع المدني — شرط أساسي لتشغيل أي منشأة.",
  bullets:["أنظمة الإنذار المبكر وإطفاء الحريق","مسالك الهروب وخطط الإخلاء","الحسابات الهيدروليكية لأنظمة الإطفاء","اعتماد المخططات من الجهات المختصة"],
  details:["تصميم كافة أنظمة السلامة الهندسية وفق معايير عالمية","تصميم أنظمة الإنذار المبكر وإطفاء الحريق","تصميم مسالك الهروب وخطط الإخلاء حسب متطلبات الدفاع المدني","عمل الحسابات الهيدروليكية لأنظمة الإطفاء","الإشراف على تركيبات أنظمة الإطفاء والإنذار والتأكد من مطابقة المخططات","دراسة وتحليل مواد التشييد وتطبيق اشتراطات الدفاع المدني","اعتماد المخططات من الجهات ذات الاختصاص"],
- suited:"منشآت تجارية وتعليمية وصحية وفندقية، مستودعات، محطات وقود، مبانٍ عالية الإشغال",image:"",show:true},
+ suited:"منشآت تجارية وتعليمية وصحية وفندقية، مستودعات، محطات وقود، مبانٍ عالية الإشغال",image:"assets/media/safety-md.webp",show:true},
 {id:"pm",icon:"pulse",name:"خدمات إدارة المشاريع",intro:"تقديم الاستشارات والدراسات الهندسية والفنية والمالية للمشاريع، وتمثيل المالك بكافة مسؤولياته لتنفيذ المشروع.",
  bullets:["الدراسات الهندسية والفنية والمالية","تمثيل المالك أمام كل الأطراف","متابعة التنفيذ ونسب الإنجاز","تقارير إدارية دورية"],
  details:["تقديم الاستشارات الهندسية والفنية للمشاريع","إعداد الدراسات المالية وتقدير التكاليف","تمثيل المالك بكافة مسؤولياته أمام المقاولين والجهات","متابعة الجدول الزمني ونسب الإنجاز","مراجعة العقود والمستخلصات وأوامر التغيير","تقارير إدارية دورية لصاحب المشروع"],
@@ -1039,7 +1066,10 @@ function galleryBlock(){
 function renderHome(){
  var h=C.hero;
  var cards=C.services.filter(function(s){return s.show!==false;}).map(function(s,i){
-  return '<div class="svc-card'+(i===5?" dark":"")+' reveal"><div class="svc-num">'+String(i+1).padStart(2,"0")+'</div><div class="svc-ic">'+icon(s.icon)+'</div><h3>'+esc(s.name)+'</h3><ul>'+(s.bullets||[]).map(function(b){return '<li>'+esc(b)+'</li>';}).join("")+'</ul><a class="svc-cta" href="#/services~svc-'+esc(s.id)+'">شوف تفاصيل الخدمة '+I.arrow+'</a></div>';}).join("");
+  var _mm=(s.image||"").match(/^(.*)-(sm|md|lg)\.webp$/);
+  var _ss=_mm?' srcset="'+esc(_mm[1])+'-sm.webp 600w, '+esc(_mm[1])+'-md.webp 1200w" sizes="(max-width:640px) 84vw, 340px"':'';
+  var _pic=s.image?'<div class="svc-media"><img src="'+esc(s.image)+'"'+_ss+' alt="'+esc(s.name)+'" loading="lazy" decoding="async" onerror="this.closest(\'.svc-media\').remove();"></div>':'';
+  return '<article class="svc-card reveal">'+_pic+'<div class="svc-body"><div class="svc-num">'+String(i+1).padStart(2,"0")+'</div><div class="svc-ic">'+icon(s.icon)+'</div><h3>'+esc(s.name)+'</h3><ul>'+(s.bullets||[]).map(function(b){return '<li>'+esc(b)+'</li>';}).join("")+'</ul><a class="svc-cta" href="#/services~svc-'+esc(s.id)+'">شوف تفاصيل الخدمة '+I.arrow+'</a></div></article>';}).join("");
  var stats=C.stats.map(function(s){return '<div><b>'+esc(s.value)+'</b><span>'+esc(s.label)+'</span></div>';}).join("");
  var wl=C.why.items.map(function(w){return '<div class="why-item reveal"><div class="why-ic">'+icon(w.icon)+'</div><div><h4>'+esc(w.title)+'</h4><p>'+esc(w.text)+'</p></div></div>';}).join("");
  var st=C.process.steps.map(function(p){return '<div class="proc-step reveal"><div class="n">'+esc(p.n)+'</div><h4>'+esc(p.title)+'</h4><p>'+esc(p.text)+'</p></div>';}).join("");
@@ -1055,7 +1085,7 @@ function renderHome(){
   : '<section class="hero" id="top"><div class="hero-grid">'+_copy+'<div class="hero-art reveal">'+heroArt(h.heroImage,_badges)+'</div></div></section>';
  return _hero+
  credStrip()+
- '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-grid">'+cards+'</div></div></section>'+
+ '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-rail"><button class="rail-btn prev" type="button" aria-label="السابق">&#8249;</button><div class="svc-grid" id="svcRail">'+cards+'</div><button class="rail-btn next" type="button" aria-label="التالي">&#8250;</button></div></div></section>'+
  '<section class="why"><div class="wrap"><div class="why-grid"><div class="why-visual reveal"><p class="q">"'+esc(C.why.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(C.why.author)+'</b><span>'+esc(C.why.authorRole)+'</span></div></div></div><div class="why-list"><div class="sec-head reveal" style="margin-bottom:6px;"><div class="eyebrow">'+esc(C.why.eyebrow)+'</div><h2>'+esc(C.why.title)+'</h2></div>'+wl+'</div></div></div></section>'+
  '<section class="process"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">'+esc(C.process.eyebrow)+'</div><h2>'+esc(C.process.title)+'</h2></div><div class="proc-grid">'+st+'</div></div></section>'+
  galleryBlock()+
@@ -1111,7 +1141,7 @@ function renderPage(r){
  else if(r==="/projects")el.innerHTML=renderProjects();
  else if(r==="/about")el.innerHTML=renderAbout();
  else if(r==="/contact")el.innerHTML=renderContact();
- bindWa(el);bindProjTabs(el);try{animateCounters(el);}catch(e){}}
+ bindWa(el);bindProjTabs(el);try{animateCounters(el);}catch(e){}try{initRail();}catch(e){}}
 function bindWa(root){$$("[data-wa]",root).forEach(function(el){el.setAttribute("href",waLink(el.getAttribute("data-wa")));el.setAttribute("target","_blank");el.setAttribute("rel","noopener");});}
 function renderChrome(){
  $("#navName").textContent=C.site.brandName;$("#navSub").textContent=C.site.brandSub;
@@ -1597,6 +1627,19 @@ function animateCounters(root){
    if(p<1)requestAnimationFrame(step); }
   requestAnimationFrame(step);});},{threshold:.4});
  els.forEach(function(el){io.observe(el);});}
+function initRail(){
+ var rail=document.getElementById("svcRail"); if(!rail)return;
+ var wrap=rail.parentNode, prev=wrap.querySelector(".rail-btn.prev"), next=wrap.querySelector(".rail-btn.next");
+ if(!prev||!next)return;
+ function step(){var c=rail.querySelector(".svc-card");return c?c.getBoundingClientRect().width+22:340;}
+ function upd(){
+  var max=rail.scrollWidth-rail.clientWidth-2, x=Math.abs(rail.scrollLeft);
+  prev.disabled=x<=2; next.disabled=x>=max;}
+ prev.onclick=function(){rail.scrollBy({left:step(),behavior:"smooth"});};
+ next.onclick=function(){rail.scrollBy({left:-step(),behavior:"smooth"});};
+ rail.addEventListener("scroll",upd,{passive:true});
+ window.addEventListener("resize",upd);
+ setTimeout(upd,120);}
 function initLightbox(){
  var lb=document.getElementById("lbox");if(!lb)return;
  var im=document.getElementById("lboxImg"),cp=document.getElementById("lboxCap");

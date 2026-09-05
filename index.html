@@ -1231,6 +1231,22 @@ function addBtn(a,l){return '<button class="btn btn-outline" data-add="'+esc(a)+
 function getPath(p){var a=p.split("."),o=C,i,k;for(i=0;i<a.length;i++){k=a[i];if(/^\d+$/.test(k))k=parseInt(k,10);if(o==null)return undefined;o=o[k];}return o;}
 function setPath(p,v){var a=p.split("."),o=C,i,k;for(i=0;i<a.length-1;i++){k=a[i];if(/^\d+$/.test(k))k=parseInt(k,10);if(o[k]==null)o[k]={};o=o[k];}var l=a[a.length-1];if(/^\d+$/.test(l))l=parseInt(l,10);o[l]=v;}
 var HR='<hr style="border:0;border-top:1px solid var(--line);margin:26px 0;">';
+var SEED_MEDIA={hero:"assets/media/villa-render-lg.webp",
+ svc:{design:"assets/media/floor-plan-md.webp",survey:"assets/media/land-surveying-md.webp",supervision:"assets/media/site-supervision-md.webp",pm:"assets/media/structural-model-md.webp"},
+ gal:[{u:"assets/media/villa-render-md.webp",t:"فيلا سكنية — تصميم واجهات وتنفيذ",c:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},
+ {u:"assets/media/structural-model-md.webp",t:"نموذج إنشائي ثلاثي الأبعاد",c:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد"},
+ {u:"assets/media/floor-plan-md.webp",t:"مخطط معماري تنفيذي",c:"توزيع المساحات بالأبعاد المعتمدة"},
+ {u:"assets/media/site-supervision-md.webp",t:"إشراف هندسي على الموقع",c:"مراجعة حديد التسليح قبل الصب"},
+ {u:"assets/media/land-surveying-md.webp",t:"أعمال مساحية ورفع طبوغرافي",c:"رفع ميداني بمحطة رصد متكاملة"}]};
+function seedMedia(){
+ var n=0;
+ if(!C.hero.heroImage){C.hero.heroImage=SEED_MEDIA.hero;n++;}
+ C.services.forEach(function(s){if(!s.image&&SEED_MEDIA.svc[s.id]){s.image=SEED_MEDIA.svc[s.id];n++;}});
+ if(!Array.isArray(C.gallery.items))C.gallery.items=[];
+ var have={};C.gallery.items.forEach(function(m){if(m&&m.url)have[m.url]=1;});
+ SEED_MEDIA.gal.forEach(function(g){if(!have[g.u]){C.gallery.items.push({id:uid("g"),url:g.u,title:g.t,caption:g.c});n++;}});
+ dirty=true;openAdmin();liveRender();
+ toast(n?("تمت إضافة "+n+" عنصر \u2014 اضغط «نشر» لتظهر للزوار"):"كل صور الشركة مضافة مسبقاً");}
 function admRender(tab){
  var h="",s;
  if(tab==="site"){s=C.site;
@@ -1269,6 +1285,7 @@ function admRender(tab){
   h+=p.items.map(function(x,i){return '<div class="rep"><div class="rep-hd"><b>'+esc(x.name||"مشروع")+'</b>'+listTools("projectsPage.items",i,p.items.length)+'</div>'+fCheck("projectsPage.items."+i+".show","ظاهر في الموقع",x.show)+'<div class="fld-row">'+fText("projectsPage.items."+i+".name","اسم المشروع",x.name)+fText("projectsPage.items."+i+".sector","القطاع",x.sector)+'</div><div class="fld-row">'+fText("projectsPage.items."+i+".loc","الموقع",x.loc)+fText("projectsPage.items."+i+".scope","النطاق",x.scope)+'</div>'+fArea("projectsPage.items."+i+".desc","الوصف",x.desc)+fImg("projectsPage.items."+i+".image","صورة المشروع",x.image)+'</div>';}).join("")+addBtn("projectsPage.items","إضافة مشروع");}
  else if(tab==="gallery"){var g=C.gallery;
   h+='<div class="hint">ارفع صورة من جهازك، أو الصق رابط <b>صورة</b> أو <b>فيديو mp4</b> أو <b>يوتيوب</b> أو <b>تيك توك</b> أو <b>انستقرام</b> — يتعرّف الموقع على النوع تلقائياً.</div>';
+  h+='<button type="button" class="btn btn-outline" id="seedMedia" style="margin-bottom:18px;">\u2b07 استيراد صور الشركة الخمس (الفيلا، الإنشائي، المخطط، الإشراف، المساحة)</button>';
   h+=fCheck("gallery.show","إظهار المعرض",g.show);
   h+='<div class="fld-row">'+fText("gallery.eyebrow","عنوان صغير",g.eyebrow)+fText("gallery.title","عنوان المعرض",g.title)+'</div>'+fArea("gallery.text","نص تعريفي (اختياري)",g.text)+HR;
   h+=(g.items.length?"":'<p style="color:var(--charcoal-soft);font-size:14px;margin-bottom:16px;">لا توجد عناصر بعد — اضغط «إضافة عنصر».</p>');
@@ -1361,6 +1378,7 @@ function admBind(tab){
    setPath(path,v);dirty=true;scheduleLive();};
   el.addEventListener("input",handler);el.addEventListener("change",handler);});
  bindUploads();
+ var _sm=$("#seedMedia");if(_sm)_sm.onclick=seedMedia;
  $$("#admBody [data-add]").forEach(function(b){
   b.onclick=function(){
    var p=b.getAttribute("data-add"),arr=getPath(p);

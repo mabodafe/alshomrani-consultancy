@@ -713,6 +713,30 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 @media (max-width:1020px){.media-grid{column-count:2;}}
 @media (max-width:640px){.media-grid{column-count:1;}}
 .media-item iframe{width:100%;display:block;border:0;background:var(--charcoal);}
+
+/* ===== compact service cards ===== */
+.svc-card{flex:0 0 296px;padding:0 0 22px;}
+.svc-media{margin:0 0 16px;border-radius:var(--radius) var(--radius) 0 0;}
+.svc-media img{height:164px;}
+.svc-body{padding:0 22px;}
+.svc-num{margin-bottom:8px;font-size:12px;}
+.svc-ic{width:42px;height:42px;border-radius:11px;margin-bottom:12px;}
+.svc-ic svg{width:20px;height:20px;}
+.svc-card h3{font-size:18px;margin-bottom:9px;line-height:1.45;}
+.svc-card ul{margin-bottom:14px;}
+.svc-card li{font-size:13.5px;line-height:1.7;margin-bottom:3px;}
+.svc-card li:nth-child(n+4){display:none;}
+.svc-cta{font-size:13.5px;}
+.svc-card.dark .svc-body{padding:0 22px;}
+@media (max-width:1020px){.svc-card{flex:0 0 274px;}}
+@media (max-width:640px){.svc-card{flex:0 0 80vw;} .svc-media img{height:150px;}}
+
+/* ===== tighter home sections ===== */
+.why{padding:64px 0;}
+.why-grid{gap:40px;}
+.why-visual{padding:32px 28px;border-radius:20px;}
+.process{padding:64px 0 72px;}
+@media (max-width:820px){.why{padding:48px 0;}.process{padding:48px 0 56px;}}
 </style>
 </head>
 <body>

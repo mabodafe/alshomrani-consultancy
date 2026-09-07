@@ -823,6 +823,15 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   .svc-card{flex:0 0 78vw;}
 }
 @media (prefers-reduced-motion:reduce){.rail-hint{animation:none;}}
+
+/* stat strip under the services rail */
+.stat-strip{padding:0 0 6px;}
+.stat-strip .wrap{max-width:1240px;margin:0 auto;padding:0 28px;}
+.stat-strip .hero-stats{border-top:1px solid var(--line);padding-top:22px;}
+@media (max-width:640px){
+  .stat-strip .wrap{padding:0 18px;}
+  .stat-strip .hero-stats{padding-top:16px;}
+}
 </style>
 </head>
 <body>
@@ -1188,7 +1197,7 @@ function renderHome(){
  var _hm="";
  if(h.heroVideo)_hm='<video class="hero-bg" autoplay muted loop playsinline preload="metadata"'+(h.heroImage?' poster="'+esc(h.heroImage)+'"':'')+'><source src="'+esc(h.heroVideo)+'"></video>';
  else if(h.heroImage)_hm='<img class="hero-bg kenburns" src="'+esc(h.heroImage)+'" alt="" fetchpriority="high" decoding="async" onerror="this.remove();">';
- var _copy='<div class="hero-copy reveal"><div class="eyebrow">'+esc(h.eyebrow)+'</div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div><div class="hero-stats">'+stats+'</div></div>';
+ var _copy='<div class="hero-copy reveal"><div class="eyebrow">'+esc(h.eyebrow)+'</div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div></div>';
  var _badges=(h.badgeTop?'<div class="badge-top">'+I.star+' '+esc(h.badgeTop)+'</div>':'')+(h.badgeFloat?'<div class="badge-float"><span class="ic">'+I.house+'</span> '+esc(h.badgeFloat)+'</div>':'');
  var _hero=(h.heroFull!==false&&_hm)
   ? '<section class="hero hero-cine" id="top"><div class="hero-media">'+_hm+'<span class="hero-scrim"></span></div><div class="hero-inner">'+_copy+'</div><a class="hero-down" href="#/services" aria-label="تصفّح الخدمات"></a></section>'
@@ -1196,6 +1205,7 @@ function renderHome(){
  return _hero+
  credStrip()+
  '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-rail"><button class="rail-btn prev" type="button" aria-label="السابق">&#8249;</button><span class="rail-hint" id="railHint" aria-hidden="true"></span><div class="svc-grid" id="svcRail">'+cards+'</div><button class="rail-btn next" type="button" aria-label="التالي">&#8250;</button></div></div></section>'+
+ (stats?'<section class="stat-strip"><div class="wrap"><div class="hero-stats">'+stats+'</div></div></section>':"")+
  galleryBlock()+
  '<section class="why"><div class="wrap"><div class="why-grid"><div class="why-visual reveal"><p class="q">"'+esc(C.why.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(C.why.author)+'</b><span>'+esc(C.why.authorRole)+'</span></div></div></div><div class="why-list"><div class="sec-head reveal" style="margin-bottom:6px;"><div class="eyebrow">'+esc(C.why.eyebrow)+'</div><h2>'+esc(C.why.title)+'</h2></div>'+wl+'</div></div></div></section>'+
  '<section class="process"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">'+esc(C.process.eyebrow)+'</div><h2>'+esc(C.process.title)+'</h2></div><div class="proc-grid">'+st+'</div></div></section>'+
@@ -1732,10 +1742,11 @@ function animateCounters(root){
   var pre=m[1],end=parseInt(m[2].replace(/,/g,""),10),post=m[3];
   if(!isFinite(end)||end<2)return;
   if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
-  var t0=null,dur=1100;
+  var sep=m[2].indexOf(",")>=0,t0=null,dur=1100;
+  function fmt(v){return sep?v.toLocaleString("en-US"):String(v);}
   function step(t){ if(!t0)t0=t; var p=Math.min(1,(t-t0)/dur), e2=1-Math.pow(1-p,3);
-   el.textContent=pre+Math.round(end*e2).toLocaleString("en-US")+post;
-   if(p<1)requestAnimationFrame(step); }
+   if(p<1){el.textContent=pre+fmt(Math.round(end*e2))+post;requestAnimationFrame(step);}
+   else{el.textContent=txt;} }
   requestAnimationFrame(step);});},{threshold:.4});
  els.forEach(function(el){io.observe(el);});}
 function initRail(){
@@ -1755,7 +1766,32 @@ function initRail(){
  next.onclick=function(){rail.scrollBy({left:-step(),behavior:"smooth"});};
  rail.addEventListener("scroll",upd,{passive:true});
  window.addEventListener("resize",upd);
- setTimeout(upd,120);}
+ setTimeout(upd,120);
+ // ---- autoplay ----
+ var timer=null,paused=false,visible=true;
+ var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+ function atEnd(){return Math.abs(rail.scrollLeft)>=rail.scrollWidth-rail.clientWidth-6;}
+ function tick(){
+  if(paused||!visible||document.hidden)return;
+  if(rail.scrollWidth<=rail.clientWidth+4)return;
+  if(atEnd())rail.scrollTo({left:0,behavior:"smooth"});
+  else rail.scrollBy({left:-step(),behavior:"smooth"});}
+ function start(){if(!reduce&&!timer)timer=setInterval(tick,3800);}
+ function stop(){if(timer){clearInterval(timer);timer=null;}}
+ function hold(){paused=true;}
+ function release(){paused=false;}
+ ["pointerdown","touchstart","wheel","focusin","mouseenter"].forEach(function(ev){
+  rail.addEventListener(ev,hold,{passive:true});});
+ ["mouseleave","touchend","pointerup"].forEach(function(ev){
+  rail.addEventListener(ev,function(){setTimeout(release,2500);},{passive:true});});
+ if(prev)prev.addEventListener("click",function(){hold();setTimeout(release,6000);});
+ if(next)next.addEventListener("click",function(){hold();setTimeout(release,6000);});
+ document.addEventListener("visibilitychange",function(){if(document.hidden)stop();else start();});
+ if(window.IntersectionObserver){
+  var io=new IntersectionObserver(function(es){visible=es[0].isIntersecting;},{threshold:.15});
+  io.observe(rail);}
+ stop();start();
+}
 function initLightbox(){
  var lb=document.getElementById("lbox");if(!lb)return;
  var im=document.getElementById("lboxImg"),cp=document.getElementById("lboxCap");

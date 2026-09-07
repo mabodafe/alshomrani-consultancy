@@ -797,6 +797,32 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   .why-list li,.why li{font-size:14px;line-height:1.7;}
   .why-list h4{font-size:15.5px;}
 }
+
+/* ===== mobile "there is more" hint ===== */
+.rail-hint{display:none;}
+@media (max-width:1020px){
+  .svc-rail{position:relative;}
+  .rail-hint{
+    display:block;position:absolute;top:38%;left:6px;z-index:6;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(27,24,21,.82);box-shadow:0 6px 18px rgba(0,0,0,.28);
+    animation:railNudge 1.5s ease-in-out infinite;pointer-events:none;
+    transition:opacity .4s ease;
+  }
+  .rail-hint::before{
+    content:"";position:absolute;top:13px;left:16px;
+    width:11px;height:11px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;
+    transform:rotate(45deg);
+  }
+  .rail-hint.gone{opacity:0;}
+  @keyframes railNudge{
+    0%,100%{transform:translateX(0);}
+    50%{transform:translateX(-9px);}
+  }
+  /* the last card peeks so it is obvious the row continues */
+  .svc-card{flex:0 0 78vw;}
+}
+@media (prefers-reduced-motion:reduce){.rail-hint{animation:none;}}
 </style>
 </head>
 <body>
@@ -915,7 +941,7 @@ schema:SCHEMA,version:1,updatedAt:0,
 site:{brandName:"شركة سعد الشمراني",brandSub:"للاستشارات الهندسية",legalName:"شركة سعد مفرح الشمراني للاستشارات الهندسية",
  title:"شركة سعد الشمراني للاستشارات الهندسية | تصميم، رخص، مساحة، إشراف، سلامة",
  description:"شركة سعد مفرح الشمراني للاستشارات الهندسية — تأسست 2016، أربعة فروع داخل المملكة. تصميم معماري وإنشائي، رخص ومعاملات بلدية، أعمال مساحية وصكوك، إشراف هندسي، وأنظمة أمن وسلامة. مرخّصة من الهيئة السعودية للمهندسين ومعتمدة من الهيئة العامة للعقار.",
- logo:"assets/logo-icon.png",phone:"0570086833",phoneIntl:"+966570086833",whatsapp:"966570086833",
+ logo:"assets/logo-icon.png",phone:"0570086833",phone2:"0112339913",phoneIntl:"+966570086833",whatsapp:"966570086833",
  email:"s3adalshomrani2022@gmail.com",address:"الرياض — حي العارض — شارع ريحانة بنت زيد، 13338",
  crNumber:"2028159650",sceNumber:"5110104772",foundedYear:"2016",
  waDefault:"السلام عليكم، أرغب بطلب استشارة هندسية مجانية."},
@@ -1169,10 +1195,11 @@ function renderHome(){
   : '<section class="hero" id="top"><div class="hero-grid">'+_copy+'<div class="hero-art reveal">'+heroArt(h.heroImage,_badges)+'</div></div></section>';
  return _hero+
  credStrip()+
- '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-rail"><button class="rail-btn prev" type="button" aria-label="السابق">&#8249;</button><div class="svc-grid" id="svcRail">'+cards+'</div><button class="rail-btn next" type="button" aria-label="التالي">&#8250;</button></div></div></section>'+
+ '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-rail"><button class="rail-btn prev" type="button" aria-label="السابق">&#8249;</button><span class="rail-hint" id="railHint" aria-hidden="true"></span><div class="svc-grid" id="svcRail">'+cards+'</div><button class="rail-btn next" type="button" aria-label="التالي">&#8250;</button></div></div></section>'+
+ galleryBlock()+
  '<section class="why"><div class="wrap"><div class="why-grid"><div class="why-visual reveal"><p class="q">"'+esc(C.why.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(C.why.author)+'</b><span>'+esc(C.why.authorRole)+'</span></div></div></div><div class="why-list"><div class="sec-head reveal" style="margin-bottom:6px;"><div class="eyebrow">'+esc(C.why.eyebrow)+'</div><h2>'+esc(C.why.title)+'</h2></div>'+wl+'</div></div></div></section>'+
  '<section class="process"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">'+esc(C.process.eyebrow)+'</div><h2>'+esc(C.process.title)+'</h2></div><div class="proc-grid">'+st+'</div></div></section>'+
- galleryBlock()+
+ 
  '<section class="clients"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.clients.eyebrow)+'</div><h2>'+esc(C.clients.title)+'</h2><p>'+esc(C.clients.text)+'</p></div><div class="client-row">'+cl+'</div><div class="partners-label">'+esc(C.clients.partnersLabel)+'</div><div class="partner-row">'+pt+'</div><div style="margin-top:40px;"><a class="btn btn-light" href="#/projects">تصفّح أعمالنا '+I.arrow+'</a></div></div></section>'+
  ctaBlock("/");}
 function renderServices(){
@@ -1212,7 +1239,7 @@ function renderContact(){
  var faq=c.faq.map(function(f){return '<details class="reveal"><summary><span>'+esc(f.q)+'</span><span class="pm" aria-hidden="true">+</span></summary><p>'+esc(f.a)+'</p></details>';}).join("");
  var map=c.mapUrl?'<section class="services" style="padding:0 0 80px;"><div class="wrap"><div style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);"><iframe src="'+esc(c.mapUrl)+'" width="100%" height="420" style="border:0;display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="موقع الشركة"></iframe></div></div></section>':'';
  return pheadBlock("تواصل معنا",c.title,c.sub)+
- '<section class="services" style="padding:80px 0;"><div class="wrap"><div class="cgrid"><div class="ccard reveal"><span class="ic">'+I.wa+'</span><h4>واتساب — الأسرع</h4><p>ردّ خلال ساعات العمل، ويمكنك إرفاق صورة الصك مباشرة.</p><p style="margin-top:14px;"><a class="svc-cta" data-wa="">ابدأ محادثة '+I.arrow+'</a></p></div><div class="ccard reveal"><span class="ic">'+I.phone+'</span><h4>الهاتف</h4><p><a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></p><small>'+esc(c.hours)+'</small></div><div class="ccard reveal"><span class="ic">'+I.mail+'</span><h4>البريد الإلكتروني</h4><p><a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></p><small>للعروض والمراسلات الرسمية</small></div><div class="ccard reveal"><span class="ic">'+I.pin+'</span><h4>المقر الرئيسي</h4><p>'+esc(C.site.address)+'</p><small>وفروع في بيشة ومكة المكرمة</small></div></div></div></section>'+map+
+ '<section class="services" style="padding:80px 0;"><div class="wrap"><div class="cgrid"><div class="ccard reveal"><span class="ic">'+I.wa+'</span><h4>واتساب — الأسرع</h4><p>ردّ خلال ساعات العمل، ويمكنك إرفاق صورة الصك مباشرة.</p><p style="margin-top:14px;"><a class="svc-cta" data-wa="">ابدأ محادثة '+I.arrow+'</a></p></div><div class="ccard reveal"><span class="ic">'+I.phone+'</span><h4>الهاتف</h4><p><a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></p>'+(C.site.phone2?'<p style="margin-top:4px;"><a href="tel:'+esc(String(C.site.phone2).replace(/[^0-9+]/g,""))+'" dir="ltr">'+esc(C.site.phone2)+'</a></p>':'')+'<small>'+esc(c.hours)+'</small></div><div class="ccard reveal"><span class="ic">'+I.mail+'</span><h4>البريد الإلكتروني</h4><p><a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></p><small>للعروض والمراسلات الرسمية</small></div><div class="ccard reveal"><span class="ic">'+I.pin+'</span><h4>المقر الرئيسي</h4><p>'+esc(C.site.address)+'</p><small>وفروع في بيشة ومكة المكرمة</small></div></div></div></section>'+map+
  '<section class="why"><div class="wrap"><div class="split"><div class="reveal"><div class="eyebrow">قبل أن تتواصل</div><h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;">'+esc(c.prepTitle)+'</h2><ul class="checks">'+prep+'</ul><div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' أرسل عبر واتساب</a><a class="btn btn-outline" href="'+telLink()+'">اتصال مباشر</a></div></div><div class="reveal"><div class="hero-art" style="height:420px;">'+heroArt("",'<div class="badge-top">'+I.star+' استشارة أولى مجانية</div>')+'</div></div></div></div></section>'+
  '<section class="services" style="padding:90px 0;"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">أسئلة متكررة</div><h2>'+esc(c.faqTitle)+'</h2></div><div class="faq" style="max-width:860px;margin:0 auto;">'+faq+'</div></div></section>'+ctaBlock("/contact");}
 function bindProjTabs(root){
@@ -1244,7 +1271,7 @@ function renderChrome(){
  var _ms=$("#mnavSocial");if(_ms)_ms.innerHTML=soc;
  var navList=links.map(function(n){return '<li><a href="#'+esc(n.route)+'">'+esc(n.label)+'</a></li>';}).join("");
  var svcList=C.services.filter(function(s){return s.show!==false;}).map(function(s){return '<li><a href="#/services~svc-'+esc(s.id)+'">'+esc(s.name)+'</a></li>';}).join("");
- $("#siteFooter").innerHTML='<div class="wrap"><div class="foot-grid"><div class="foot-brand"><a href="#/" class="brand"><img src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="40" height="40" loading="lazy"><span class="brand-text"><b>'+esc(C.site.brandName)+'</b><span>'+esc(C.site.brandSub)+'</span></span></a><p>'+esc(C.footer.about)+'</p><div class="social-row">'+soc+'</div></div><div class="foot-col"><h5>روابط سريعة</h5><ul>'+navList+'</ul></div><div class="foot-col"><h5>خدماتنا</h5><ul>'+svcList+'</ul></div><div class="foot-col"><h5>تواصل معنا</h5><ul><li>'+I.pin+' '+esc(C.site.address)+'</li><li>'+I.phone+' <a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></li><li>'+I.mail+' <a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></li></ul></div></div><div class="foot-bottom"><span>© '+new Date().getFullYear()+' '+esc(C.site.legalName)+'. '+esc(C.footer.copyright)+'</span><span>سجل تجاري '+esc(C.site.crNumber)+' — ترخيص الهيئة السعودية للمهندسين '+esc(C.site.sceNumber)+'</span></div></div>';
+ $("#siteFooter").innerHTML='<div class="wrap"><div class="foot-grid"><div class="foot-brand"><a href="#/" class="brand"><img src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="40" height="40" loading="lazy"><span class="brand-text"><b>'+esc(C.site.brandName)+'</b><span>'+esc(C.site.brandSub)+'</span></span></a><p>'+esc(C.footer.about)+'</p><div class="social-row">'+soc+'</div></div><div class="foot-col"><h5>روابط سريعة</h5><ul>'+navList+'</ul></div><div class="foot-col"><h5>خدماتنا</h5><ul>'+svcList+'</ul></div><div class="foot-col"><h5>تواصل معنا</h5><ul><li>'+I.pin+' '+esc(C.site.address)+'</li><li>'+I.phone+' <a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></li>'+(C.site.phone2?'<li>'+I.phone+' <a href="tel:'+esc(String(C.site.phone2).replace(/[^0-9+]/g,""))+'" dir="ltr">'+esc(C.site.phone2)+'</a></li>':"")+'<li>'+I.mail+' <a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></li></ul></div></div><div class="foot-bottom"><span>© '+new Date().getFullYear()+' '+esc(C.site.legalName)+'. '+esc(C.footer.copyright)+'</span><span>سجل تجاري '+esc(C.site.crNumber)+' — ترخيص الهيئة السعودية للمهندسين '+esc(C.site.sceNumber)+'</span></div></div>';
  bindWa(document);updateSeo();}
 function updateSeo(){
  document.title=C.site.title||"";
@@ -1424,7 +1451,7 @@ function admRender(tab){
   h+='<div class="hint">هذه البيانات تظهر في القائمة العلوية والفوتر وكل أزرار التواصل تلقائياً.</div>';
   h+='<div class="fld-row">'+fText("site.brandName","اسم الشركة (مختصر)",s.brandName)+fText("site.brandSub","السطر الثاني",s.brandSub)+'</div>';
   h+=fText("site.legalName","الاسم الرسمي الكامل",s.legalName);
-  h+='<div class="fld-row">'+fText("site.phone","رقم الهاتف (للعرض)",s.phone)+fText("site.phoneIntl","الرقم الدولي (للاتصال)",s.phoneIntl,"مثال: +966570086833")+'</div>';
+  h+='<div class="fld-row">'+fText("site.phone","رقم الجوال (للعرض)",s.phone)+fText("site.phone2","هاتف ثابت (اختياري)",s.phone2,"يظهر في صفحة تواصل معنا والفوتر")+fText("site.phoneIntl","الرقم الدولي (للاتصال)",s.phoneIntl,"مثال: +966570086833")+'</div>';
   h+='<div class="fld-row">'+fText("site.whatsapp","رقم واتساب",s.whatsapp,"أرقام فقط بدون +")+fText("site.email","البريد الإلكتروني",s.email,"","email")+'</div>';
   h+=fText("site.address","العنوان",s.address);
   h+='<div class="fld-row">'+fText("site.crNumber","السجل التجاري",s.crNumber)+fText("site.sceNumber","ترخيص الهيئة السعودية للمهندسين",s.sceNumber)+'</div>';
@@ -1716,6 +1743,11 @@ function initRail(){
  var wrap=rail.parentNode, prev=wrap.querySelector(".rail-btn.prev"), next=wrap.querySelector(".rail-btn.next");
  if(!prev||!next)return;
  function step(){var c=rail.querySelector(".svc-card");return c?c.getBoundingClientRect().width+22:340;}
+ var hint=document.getElementById("railHint");
+ function killHint(){if(hint){hint.classList.add("gone");hint=null;}}
+ rail.addEventListener("scroll",killHint,{once:true,passive:true});
+ setTimeout(function(){if(hint&&rail.scrollWidth<=rail.clientWidth+4)killHint();},400);
+ setTimeout(killHint,9000);
  function upd(){
   var max=rail.scrollWidth-rail.clientWidth-2, x=Math.abs(rail.scrollLeft);
   prev.disabled=x<=2; next.disabled=x>=max;}

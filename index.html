@@ -882,6 +882,47 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   .hero-ctas .btn{font-size:11px;padding:11px 7px;}
   .hero-ctas .btn:first-child{flex:1.38 1 0;}
 }
+
+/* ===== phones: nav links in the top bar, "since 2016" under the cards ===== */
+.est-line{display:none;}
+@media (max-width:640px){
+  /* 1. nav links replace the burger drawer */
+  header.nav .nav-links{
+    display:flex;gap:8px;font-size:12px;flex:1 1 auto;
+    justify-content:flex-end;align-items:center;white-space:nowrap;
+  }
+  header.nav .nav-links a{
+    min-height:44px;display:inline-flex;align-items:center;padding:0 2px;
+  }
+  header.nav .brand-text{display:none;}
+  header.nav .nav-inner{padding:6px 18px;gap:10px;}
+  header.nav .nav-cta{display:none;}
+  header.nav .burger{display:none;}
+  header.nav .brand img{width:36px;height:36px;}
+
+  /* 2+3. the eyebrow line moves under the service rail, with a moving logo */
+  .hero-cine .eyebrow{display:none;}
+  .est-line{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    margin:2px 0 0;padding:10px 12px;
+    border-top:1px solid var(--line);
+    color:var(--red);font-weight:800;font-size:12.5px;letter-spacing:.2px;
+  }
+  .est-logo{
+    width:30px;height:30px;flex:none;display:block;
+    animation:estFloat 3.6s ease-in-out infinite;
+    filter:drop-shadow(0 3px 6px rgba(184,34,43,.22));
+  }
+  @keyframes estFloat{
+    0%,100%{transform:translateY(0) rotate(0deg) scale(1);}
+    50%{transform:translateY(-4px) rotate(-7deg) scale(1.06);}
+  }
+}
+@media (max-width:365px){
+  header.nav .nav-links{gap:6px;font-size:11px;}
+  header.nav .brand img{width:32px;height:32px;}
+}
+@media (prefers-reduced-motion:reduce){.est-logo{animation:none;}}
 </style>
 </head>
 <body>
@@ -1254,7 +1295,7 @@ function renderHome(){
   : '<section class="hero" id="top"><div class="hero-grid">'+_copy+'<div class="hero-art reveal">'+heroArt(h.heroImage,_badges)+'</div></div></section>';
  return _hero+
  credStrip()+
- '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-rail"><button class="rail-btn prev" type="button" aria-label="السابق">&#8249;</button><span class="rail-hint" id="railHint" aria-hidden="true"></span><div class="svc-grid" id="svcRail">'+cards+'</div><button class="rail-btn next" type="button" aria-label="التالي">&#8250;</button></div></div></section>'+
+ '<section class="services"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(C.servicesIntro.eyebrow)+'</div><h2>'+esc(C.servicesIntro.title)+'</h2><p>'+esc(C.servicesIntro.text)+'</p></div><div class="svc-rail"><button class="rail-btn prev" type="button" aria-label="السابق">&#8249;</button><span class="rail-hint" id="railHint" aria-hidden="true"></span><div class="svc-grid" id="svcRail">'+cards+'</div><button class="rail-btn next" type="button" aria-label="التالي">&#8250;</button></div>'+(h.eyebrow?'<div class="est-line"><img class="est-logo" src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="30" height="30" loading="lazy"><span>'+esc(h.eyebrow)+'</span></div>':"")+'</div></section>'+
  (stats?'<section class="stat-strip"><div class="wrap"><div class="hero-stats">'+stats+'</div></div></section>':"")+
  galleryBlock()+
  '<section class="why"><div class="wrap"><div class="why-grid"><div class="why-visual reveal"><p class="q">"'+esc(C.why.quote)+'"</p><div class="sig"><div class="av">'+esc(C.why.authorInitials)+'</div><div><b>'+esc(C.why.author)+'</b><span>'+esc(C.why.authorRole)+'</span></div></div></div><div class="why-list"><div class="sec-head reveal" style="margin-bottom:6px;"><div class="eyebrow">'+esc(C.why.eyebrow)+'</div><h2>'+esc(C.why.title)+'</h2></div>'+wl+'</div></div></div></section>'+

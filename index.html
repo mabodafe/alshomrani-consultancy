@@ -917,6 +917,92 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   header.nav .brand img{width:32px;height:32px;}
 }
 @media (prefers-reduced-motion:reduce){.est-logo{animation:none;}}
+
+/* ================= mobile refinements ================= */
+
+/* whole service card is clickable on phones (stretched link — valid HTML) */
+.svc-card{position:relative;}
+@media (max-width:640px){
+  .svc-cta::after{content:"";position:absolute;inset:0;z-index:4;border-radius:inherit;}
+  .svc-card:active{transform:scale(.99);}
+}
+
+/* gallery folders */
+.gtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.gtab{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;border-radius:100px;cursor:pointer;
+  font-family:inherit;font-size:13px;font-weight:800;
+  background:var(--paper);border:1px solid var(--line);color:var(--charcoal-soft);
+  transition:background .2s ease,color .2s ease,border-color .2s ease;
+}
+.gtab span{
+  font-size:11px;font-weight:800;opacity:.75;
+  background:var(--cream);border-radius:100px;padding:1px 7px;
+}
+.gtab:hover{border-color:var(--red);color:var(--red);}
+.gtab.on{background:var(--charcoal);color:#fff;border-color:var(--charcoal);}
+.gtab.on span{background:rgba(255,255,255,.18);color:#fff;}
+
+@media (max-width:640px){
+  /* smaller pictures and videos */
+  .media-grid{column-count:2;column-gap:10px;}
+  .media-item{margin-bottom:10px;border-radius:12px;}
+  .media-item img{aspect-ratio:1/1;}
+  .media-item iframe{aspect-ratio:1/1;}
+  .media-item iframe.vert{aspect-ratio:9/16;max-height:52vh;}
+  .media-item .cap{padding:7px 9px;font-size:11.5px;line-height:1.4;}
+  .media-item .cap small{font-size:10.5px;margin-top:2px;}
+  .gallery-sec{padding:44px 0 36px !important;}
+  .gtabs{gap:6px;margin-bottom:14px;}
+  .gtab{padding:8px 12px;font-size:11.5px;min-height:38px;}
+  .gtab span{font-size:10px;padding:1px 5px;}
+
+  /* footer: columns side by side instead of one long scroll */
+  footer .foot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 16px;margin-bottom:26px;}
+  footer .foot-col{min-width:0;}
+  footer .foot-brand{grid-column:1 / -1;}
+  footer .foot-col h5{font-size:14px;margin-bottom:8px;}
+  footer .foot-col ul{display:flex;flex-direction:column;gap:2px;}
+  footer .foot-col li,footer .foot-col a{font-size:12.5px;line-height:1.7;}
+  footer .foot-brand p{font-size:13px;line-height:1.75;}
+  footer .foot-bottom{flex-direction:column;gap:6px;text-align:center;font-size:11.5px;}
+
+  /* floating action circles, bottom-left, on every page */
+  body{padding-bottom:18px;}
+  .mbar{
+    display:flex;flex-direction:column;gap:11px;
+    position:fixed;left:14px;bottom:calc(16px + env(safe-area-inset-bottom));
+    right:auto;width:auto;z-index:700;
+    background:none;border:0;box-shadow:none;padding:0;
+  }
+  .mbar a{
+    width:52px;height:52px;min-height:52px;border-radius:50%;
+    padding:0;gap:0;font-size:0;line-height:0;
+    box-shadow:0 8px 22px rgba(27,24,21,.30);
+    transition:transform .2s ease;
+  }
+  .mbar a b{display:none;}
+  .mbar svg{width:23px;height:23px;}
+  .mbar a:active{transform:scale(.92);}
+  .mbar .wa{position:relative;}
+  .mbar .wa::before{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:var(--whatsapp);z-index:-1;animation:mbPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes mbPulse{
+    0%{transform:scale(1);opacity:.55;}
+    70%{transform:scale(1.5);opacity:0;}
+    100%{transform:scale(1.5);opacity:0;}
+  }
+
+  /* general feel: faster taps, no blue flash, smoother long pages */
+  a,button,.gtab,.svc-card{-webkit-tap-highlight-color:transparent;}
+  .why,.process,.clients,.cta-banner,.gallery-sec{content-visibility:auto;contain-intrinsic-size:600px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .mbar .wa::before{animation:none;}
+}
 </style>
 </head>
 <body>
@@ -956,8 +1042,8 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 <footer id="siteFooter"></footer>
 <a class="wa-float" data-wa="" aria-label="تواصل واتساب"></a>
 <nav class="mbar" aria-label="إجراءات سريعة">
-  <a class="wa" id="mbarWa" data-wa=""><span class="i"></span>واتساب</a>
-  <a class="tel" id="mbarTel" href="#"><span class="i"></span>اتصال</a>
+  <a class="wa" id="mbarWa" data-wa="" aria-label="تواصل عبر واتساب" title="واتساب"><span class="i"></span><b>واتساب</b></a>
+  <a class="tel" id="mbarTel" href="#" aria-label="اتصال هاتفي" title="اتصال"><span class="i"></span><b>اتصال</b></a>
 </nav>
 <div class="lbox" id="lbox" role="dialog" aria-modal="true" aria-label="عرض الصورة">
   <button class="lclose" id="lboxClose" aria-label="إغلاق الصورة">&times;</button>
@@ -1132,7 +1218,7 @@ projectsPage:{title:"مشاريع <em>منفّذة وموثّقة</em>",
  {id:uid("pj"),name:"تصاميم ثلاثية الأبعاد — نماذج معمارية",sector:"تصميم 3D",loc:"الرياض",scope:"نمذجة ومناظير",desc:"نماذج ومناظير ثلاثية الأبعاد تُظهر شكل المبنى ومواد التشطيب قبل بدء التنفيذ.",image:"",show:true},
  {id:uid("pj"),name:"تصميم ثلاثي الأبعاد — مطعم",sector:"تصميم 3D",loc:"الرياض",scope:"تصميم داخلي ونمذجة",desc:"تصميم داخلي لمطعم مع نمذجة ثلاثية الأبعاد للإضاءة والتشطيبات وتوزيع الجلسات.",image:"",show:true},
  {id:uid("pj"),name:"أعمال مساحية وصكوك",sector:"خدمات مساحية",loc:"الرياض · بيشة · مكة المكرمة",scope:"رفع مساحي وفرز",desc:"رفع مساحي وإصدار إقرارات، وتجزئة ودمج صكوك، وفرز وحدات عقارية لعملاء أفراد ومطوّرين.",image:"",show:true}]},
-gallery:{show:true,eyebrow:"معرض الأعمال",title:"صور وفيديوهات من مشاريعنا",text:"لقطات من مشاريع ومواقع نعمل عليها فعلياً.",items:[{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة"}]},
+gallery:{show:true,eyebrow:"معرض الأعمال",title:"صور وفيديوهات من مشاريعنا",cats:[{id:"media",label:"صور وفيديوهات من مشاريعنا"},{id:"quick",label:"معلومة على السريع"},{id:"facades",label:"الواجهات"},{id:"contracts",label:"التعاقدات"}],text:"لقطات من مشاريع ومواقع نعمل عليها فعلياً.",items:[{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة"}]},
 about:{title:"شركة هندسية سعودية، <em>من فرع واحد إلى أربعة</em>",
  sub:"تأسست عام 2016 لتكون إحدى الشركات الرائدة في الاستشارات الهندسية، واضعةً الجودة والدقة والالتزام في صميم أعمالها.",
  storyEyebrow:"قصة الشركة",storyTitle:"من فرع واحد في الرياض إلى شبكة تخدم أهم مناطق المملكة",
@@ -1263,10 +1349,32 @@ function ctaBlock(route){
  return '<section class="cta-banner"><div class="cta-box reveal"><h2>'+esc(_t)+'</h2><p>'+esc(_x)+'</p><div class="ctas"><a class="btn btn-light" data-wa="">'+I.wa+' '+esc(_b)+'</a><a class="btn btn-outline" style="border-color:#fff;color:#fff;" href="'+telLink()+'">اتصل: '+esc(C.site.phone)+'</a></div>'+_n+'</div></section>';}
 function credStrip(){if(!C.credentials||!C.credentials.length)return "";return '<div class="cred-strip"><div class="cred-inner">'+C.credentials.map(function(c){return '<div>'+icon(c.icon)+' '+esc(c.text)+'</div>';}).join("")+'</div></div>';}
 function pheadBlock(cr,t,s){return '<section class="phead"><div class="wrap"><nav class="crumb" aria-label="مسار التنقل"><a href="#/">الرئيسية</a><i>/</i>'+esc(cr)+'</nav><h1>'+t+'</h1><p>'+esc(s)+'</p></div></section>';}
+function galCats(){
+ var g=C.gallery||{};
+ return (Array.isArray(g.cats)&&g.cats.length)?g.cats:[{id:"media",label:"صور وفيديوهات من مشاريعنا"}];}
+function galCatOf(m){
+ var cs=galCats(),id=(m&&m.cat)||"";
+ for(var i=0;i<cs.length;i++)if(cs[i].id===id)return id;
+ return cs[0].id;}
 function galleryBlock(){
  var g=C.gallery;if(!g||!g.show||!g.items||!g.items.length)return "";
- return '<section class="services" style="padding:80px 0;"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(g.eyebrow)+'</div><h2>'+esc(g.title)+'</h2>'+(g.text?'<p>'+esc(g.text)+'</p>':'')+'</div><div class="media-grid">'+
- g.items.map(function(m){return '<figure class="media-item reveal">'+mediaEl(m)+((m.title||m.caption)?'<figcaption class="cap">'+esc(m.title||"")+(m.caption?'<small>'+esc(m.caption)+'</small>':'')+'</figcaption>':'')+'</figure>';}).join("")+'</div></div></section>';}
+ var cs=galCats();
+ var counts={};g.items.forEach(function(m){var c=galCatOf(m);counts[c]=(counts[c]||0)+1;});
+ var live=cs.filter(function(c){return counts[c.id];});
+ var first=live.length?live[0].id:cs[0].id;
+ var tabs=live.length>1?'<div class="gtabs" role="tablist">'+live.map(function(c){
+   return '<button type="button" class="gtab'+(c.id===first?" on":"")+'" data-gcat="'+esc(c.id)+'">'+esc(c.label)+'<span>'+counts[c.id]+'</span></button>';
+  }).join("")+'</div>':"";
+ return '<section class="services gallery-sec" style="padding:80px 0;"><div class="wrap"><div class="sec-head reveal"><div class="eyebrow">'+esc(g.eyebrow)+'</div><h2>'+esc(g.title)+'</h2>'+(g.text?'<p>'+esc(g.text)+'</p>':'')+'</div>'+tabs+'<div class="media-grid" id="galGrid">'+
+ g.items.map(function(m){var c=galCatOf(m);
+  return '<figure class="media-item reveal" data-gcat="'+esc(c)+'"'+(c===first?'':' hidden')+'>'+mediaEl(m)+((m.title||m.caption)?'<figcaption class="cap">'+esc(m.title||"")+(m.caption?'<small>'+esc(m.caption)+'</small>':'')+'</figcaption>':'')+'</figure>';}).join("")+'</div></div></section>';}
+function bindGalTabs(root){
+ var tabs=$$(".gtab",root);if(!tabs.length)return;
+ tabs.forEach(function(t){t.onclick=function(){
+  tabs.forEach(function(o){o.classList.remove("on");});t.classList.add("on");
+  var c=t.getAttribute("data-gcat");
+  $$("#galGrid .media-item",root).forEach(function(fig){
+   fig.hidden=fig.getAttribute("data-gcat")!==c;});};});}
 function renderHome(){
  var h=C.hero;
  var cards=C.services.filter(function(s){return s.show!==false;}).map(function(s,i){
@@ -1347,7 +1455,7 @@ function renderPage(r){
  else if(r==="/projects")el.innerHTML=renderProjects();
  else if(r==="/about")el.innerHTML=renderAbout();
  else if(r==="/contact")el.innerHTML=renderContact();
- bindWa(el);bindProjTabs(el);try{animateCounters(el);}catch(e){}try{initRail();}catch(e){}}
+ bindWa(el);bindProjTabs(el);try{bindGalTabs(el);}catch(e){}try{animateCounters(el);}catch(e){}try{initRail();}catch(e){}}
 function bindWa(root){$$("[data-wa]",root).forEach(function(el){el.setAttribute("href",waLink(el.getAttribute("data-wa")));el.setAttribute("target","_blank");el.setAttribute("rel","noopener");});}
 function renderChrome(){
  $("#navName").textContent=C.site.brandName;$("#navSub").textContent=C.site.brandSub;
@@ -1584,7 +1692,7 @@ function admRender(tab){
   h+=(g.items.length?"":'<p style="color:var(--charcoal-soft);font-size:14px;margin-bottom:16px;">لا توجد عناصر بعد — اضغط «إضافة عنصر».</p>');
   h+=g.items.map(function(m,i){
    var prev=m.url?'<div style="margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid var(--line);max-width:280px;">'+mediaEl(m)+'</div>':'';
-   return '<div class="rep"><div class="rep-hd"><b>'+esc(m.title||("عنصر "+(i+1)))+'</b>'+listTools("gallery.items",i,g.items.length)+'</div>'+prev+fImg("gallery.items."+i+".url","الصورة أو الرابط",m.url,"ارفع صورة، أو الصق رابط فيديو mp4 أو يوتيوب")+'<div class="fld-row">'+fText("gallery.items."+i+".title","العنوان",m.title)+'<div class="fld"><label>النوع</label><select data-bind="gallery.items.'+i+'.type"><option value="auto"'+((m.type||"auto")==="auto"?" selected":"")+'>تلقائي</option><option value="image"'+(m.type==="image"?" selected":"")+'>صورة</option><option value="video"'+(m.type==="video"?" selected":"")+'>فيديو</option></select></div></div>'+fText("gallery.items."+i+".caption","وصف مختصر",m.caption)+'</div>';}).join("")+addBtn("gallery.items","إضافة عنصر");}
+   return '<div class="rep"><div class="rep-hd"><b>'+esc(m.title||("عنصر "+(i+1)))+'</b>'+listTools("gallery.items",i,g.items.length)+'</div>'+prev+fImg("gallery.items."+i+".url","الصورة أو الرابط",m.url,"ارفع صورة، أو الصق رابط فيديو mp4 أو يوتيوب")+'<div class="fld"><label>القسم</label><select data-bind="gallery.items.'+i+'.cat">'+galCats().map(function(c){return '<option value="'+esc(c.id)+'"'+(galCatOf(m)===c.id?" selected":"")+'>'+esc(c.label)+'</option>';}).join("")+'</select></div>'+'<div class="fld-row">'+fText("gallery.items."+i+".title","العنوان",m.title)+'<div class="fld"><label>النوع</label><select data-bind="gallery.items.'+i+'.type"><option value="auto"'+((m.type||"auto")==="auto"?" selected":"")+'>تلقائي</option><option value="image"'+(m.type==="image"?" selected":"")+'>صورة</option><option value="video"'+(m.type==="video"?" selected":"")+'>فيديو</option></select></div></div>'+fText("gallery.items."+i+".caption","وصف مختصر",m.caption)+'</div>';}).join("")+addBtn("gallery.items","إضافة عنصر");}
  else if(tab==="about"){var a=C.about;
   h+=fText("about.title","عنوان الصفحة",a.title,"يمكن استخدام <em>كلمة</em> لتمييزها")+fArea("about.sub","النص التعريفي",a.sub);
   h+=HR+'<h4 style="margin-bottom:14px;">قصة الشركة</h4>';

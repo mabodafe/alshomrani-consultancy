@@ -1331,6 +1331,11 @@ var rendered={},io=null;
 function go(r,a){location.hash="#"+r+(a?("~"+a):"");}
 function navLabel(r){for(var i=0;i<C.nav.length;i++)if(C.nav[i].route===r)return C.nav[i].label;return "";}
 function currentRoute(){var h=(location.hash||"#/").replace(/^#/,"");var t=h.indexOf("~");if(t>=0)h=h.slice(0,t);return ROUTES.indexOf(h)>=0?h:"/";}
+function syncNav(route){
+ $$("#navLinks a, #mnavLinks a").forEach(function(a){
+  var on=a.getAttribute("href")==="#"+route;
+  if(on){a.setAttribute("aria-current","page");a.classList.add("on");}
+  else{a.removeAttribute("aria-current");a.classList.remove("on");}});}
 function router(){
  var raw=(location.hash||"#/").replace(/^#/,""),anchor=null,t=raw.indexOf("~");
  if(t>=0){anchor=raw.slice(t+1);raw=raw.slice(0,t);}
@@ -1340,10 +1345,7 @@ function router(){
  $$(".page").forEach(function(p){p.classList.remove("active");});
  if(!rendered[route]){renderPage(route);rendered[route]=true;}
  document.getElementById(PAGEID[route]).classList.add("active");
- $$("#navLinks a, #mnavLinks a").forEach(function(a){
-  var on=a.getAttribute("href")==="#"+route;
-  if(on){a.setAttribute("aria-current","page");a.classList.add("on");}
-  else{a.removeAttribute("aria-current");a.classList.remove("on");}});
+ syncNav(route);
  document.title=route==="/"?(C.site.title||""):(navLabel(route)+" | "+(C.site.brandName||""));
  if(anchor){setTimeout(function(){var el=document.getElementById(anchor);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});},60);}
  else{window.scrollTo(0,0);}
@@ -1503,6 +1505,7 @@ function rerenderAll(){
  var r=currentRoute();renderPage(r);rendered[r]=true;
  $$(".page").forEach(function(p){p.classList.remove("active");});
  document.getElementById(PAGEID[r]).classList.add("active");
+ syncNav(r);
  observeReveal();}
 var FB_SDK=["https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js","https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"];
 function loadScript(src){return new Promise(function(res,rej){var s=document.createElement("script");s.src=src;s.async=true;s.onload=res;s.onerror=function(){rej(new Error("sdk_load_failed"));};document.head.appendChild(s);});}

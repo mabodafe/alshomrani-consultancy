@@ -710,6 +710,8 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 .media-grid{display:block;column-count:3;column-gap:20px;}
 .media-item{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;
   display:inline-block;width:100%;margin:0 0 20px;}
+/* the hidden attribute must beat the display rule above, or gallery filtering silently fails */
+.media-item[hidden]{display:none !important;}
 @media (max-width:1020px){.media-grid{column-count:2;}}
 @media (max-width:640px){.media-grid{column-count:1;}}
 .media-item iframe{width:100%;display:block;border:0;background:var(--charcoal);}

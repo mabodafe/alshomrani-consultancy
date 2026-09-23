@@ -1026,6 +1026,20 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 .social-row.hero-social{margin:0 0 30px;}
 .hero-social a{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
 @media (max-width:640px){.social-row.hero-social{margin-bottom:18px;justify-content:center;gap:12px;}}
+
+/* hero company line: no red dash; the moving logo shows on every screen size */
+.hero-cine .eyebrow::before{display:none;}
+.hero-cine .eyebrow{display:inline-flex;align-items:center;gap:10px;}
+.hero-cine .est-logo{
+  width:42px;height:42px;flex:none;display:block;
+  animation:estFloat2 3.6s ease-in-out infinite;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.42));
+}
+@keyframes estFloat2{
+  0%,100%{transform:translateY(0) rotate(0deg) scale(1);}
+  50%{transform:translateY(-4px) rotate(-7deg) scale(1.06);}
+}
+@media (prefers-reduced-motion:reduce){.hero-cine .est-logo{animation:none;}}
 </style>
 </head>
 <body>

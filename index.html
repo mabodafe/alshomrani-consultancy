@@ -1016,10 +1016,16 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 }
 
 /* ===== hero company line bigger · gallery title in brand red ===== */
-.hero-cine .eyebrow{font-size:19px;letter-spacing:.2px;line-height:1.5;}
+.hero-cine .eyebrow{font-size:24px;letter-spacing:.2px;line-height:1.45;}
 .gallery-sec .sec-head h2{color:var(--red);}
-@media (max-width:640px){.hero-cine .eyebrow{font-size:15px;}}
-@media (max-width:365px){.hero-cine .eyebrow{font-size:13.5px;}}
+@media (max-width:640px){.hero-cine .eyebrow{font-size:18px;}}
+@media (max-width:365px){.hero-cine .eyebrow{font-size:16px;}}
+
+/* social icons under the hero buttons */
+.hero-ctas:has(+ .hero-social){margin-bottom:16px;}
+.social-row.hero-social{margin:0 0 30px;}
+.hero-social a{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+@media (max-width:640px){.social-row.hero-social{margin-bottom:18px;justify-content:center;gap:12px;}}
 </style>
 </head>
 <body>
@@ -1145,7 +1151,7 @@ site:{brandName:"شركة سعد الشمراني",brandSub:"للاستشارا�
 nav:[{id:"home",label:"الرئيسية",route:"/",show:true},{id:"services",label:"خدماتنا",route:"/services",show:true},
  {id:"projects",label:"أعمالنا",route:"/projects",show:true},{id:"about",label:"من نحن",route:"/about",show:true},
  {id:"contact",label:"تواصل معنا",route:"/contact",show:true}],
-hero:{eyebrow:"شركة سعد الشمراني - استشارات هندسية متكاملة منذ 2016",titleA:"",titleB:"من المخطط إلى",titleEm:"التسليم",
+hero:{eyebrow:"شركة سعد مفرح الشمراني",titleA:"",titleB:"من المخطط إلى",titleEm:"التسليم",
  lead:"نجمع لك التصميم، الرخص والمعاملات البلدية، الأعمال المساحية، الإشراف الهندسي، وأنظمة السلامة — تحت سقف واحد، بفريق مرخّص ومعتمد رسمياً، 4 فروع داخل المملكة.",
  ctaPrimary:"احصل على استشارة مجانية",ctaSecondary:"تعرّف على خدماتنا",badgeTop:"معتمدون لدى الهيئة العامة للعقار",
  badgeFloat:"تصميم، رخص، مساحة وإشراف هندسي كامل",heroImage:"assets/media/villa-render-lg.webp",heroVideo:"",heroFull:true},
@@ -1376,6 +1382,9 @@ function galCatOf(m){
  var cs=galCats(),id=(m&&m.cat)||"";
  for(var i=0;i<cs.length;i++)if(cs[i].id===id)return id;
  return cs[0].id;}
+function heroSocial(){
+ var soc=C.social.filter(function(s){return s.show!==false&&s.url;}).map(function(s){return '<a href="'+esc(s.url)+'" target="_blank" rel="noopener" aria-label="'+esc(s.label)+'">'+icon(s.icon)+'</a>';}).join("");
+ return soc?'<div class="social-row hero-social">'+soc+'</div>':"";}
 function galleryBlock(){
  var g=C.gallery;if(!g||!g.show||!g.items||!g.items.length)return "";
  var cs=galCats();
@@ -1410,7 +1419,7 @@ function renderHome(){
  var _hm="";
  if(h.heroVideo)_hm='<video class="hero-bg" autoplay muted loop playsinline preload="metadata"'+(h.heroImage?' poster="'+esc(h.heroImage)+'"':'')+'><source src="'+esc(h.heroVideo)+'"></video>';
  else if(h.heroImage)_hm='<img class="hero-bg kenburns" src="'+esc(h.heroImage)+'" alt="" fetchpriority="high" decoding="async" onerror="this.remove();">';
- var _copy='<div class="hero-copy reveal"><div class="eyebrow"><img class="est-logo" src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="42" height="42" loading="eager"><span>'+esc(h.eyebrow)+'</span></div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div></div>';
+ var _copy='<div class="hero-copy reveal"><div class="eyebrow"><img class="est-logo" src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="42" height="42" loading="eager"><span>'+esc(h.eyebrow)+'</span></div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div>'+heroSocial()+'</div>';
  var _badges=(h.badgeTop?'<div class="badge-top">'+I.star+' '+esc(h.badgeTop)+'</div>':'')+(h.badgeFloat?'<div class="badge-float"><span class="ic">'+I.house+'</span> '+esc(h.badgeFloat)+'</div>':'');
  var _hero=(h.heroFull!==false&&_hm)
   ? '<section class="hero hero-cine" id="top"><div class="hero-media">'+_hm+'<span class="hero-scrim"></span></div><div class="hero-inner">'+_copy+'</div><a class="hero-down" href="#/services" aria-label="تصفّح الخدمات"></a></section>'

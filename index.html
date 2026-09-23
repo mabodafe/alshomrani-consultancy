@@ -1031,7 +1031,7 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 .hero-cine .eyebrow::before{display:none;}
 .hero-cine .eyebrow{display:inline-flex;align-items:center;gap:10px;}
 .hero-cine .est-logo{
-  width:42px;height:42px;flex:none;display:block;
+  width:60px;height:60px;flex:none;display:block;
   animation:estFloat2 3.6s ease-in-out infinite;
   filter:drop-shadow(0 4px 10px rgba(0,0,0,.42));
 }
@@ -1040,6 +1040,26 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
   50%{transform:translateY(-4px) rotate(-7deg) scale(1.06);}
 }
 @media (prefers-reduced-motion:reduce){.hero-cine .est-logo{animation:none;}}
+
+/* short vertical clips keep their 9:16 shape */
+.media-item video.vert{aspect-ratio:9/16;max-height:420px;object-fit:cover;background:var(--charcoal);}
+/* bigger logos */
+header.nav .brand img{width:56px;height:56px;}
+@media (max-width:640px){
+  .hero-cine .est-logo{width:52px;height:52px;}
+  .media-item video.vert{max-height:52vh;}
+  /* the logo keeps its size; the menu pills get slightly tighter so everything fits */
+  header.nav .brand{flex:none;}
+  header.nav .brand img{width:44px;height:44px;}
+  header.nav .nav-links{gap:4px;font-size:11px;min-width:0;}
+  header.nav .nav-links a{padding:0 8px;}
+}
+@media (max-width:365px){
+  header.nav .brand img{width:40px;height:40px;}
+  header.nav .nav-links{gap:3px;font-size:10.5px;}
+  header.nav .nav-links a{padding:0 6px;}
+  header.nav .nav-inner{padding:6px 8px;gap:6px;}
+}
 </style>
 </head>
 <body>
@@ -1253,7 +1273,7 @@ projectsPage:{title:"مشاريع <em>منفّذة وموثّقة</em>",
  {id:uid("pj"),name:"تصاميم ثلاثية الأبعاد — نماذج معمارية",sector:"تصميم 3D",loc:"الرياض",scope:"نمذجة ومناظير",desc:"نماذج ومناظير ثلاثية الأبعاد تُظهر شكل المبنى ومواد التشطيب قبل بدء التنفيذ.",image:"",show:true},
  {id:uid("pj"),name:"تصميم ثلاثي الأبعاد — مطعم",sector:"تصميم 3D",loc:"الرياض",scope:"تصميم داخلي ونمذجة",desc:"تصميم داخلي لمطعم مع نمذجة ثلاثية الأبعاد للإضاءة والتشطيبات وتوزيع الجلسات.",image:"",show:true},
  {id:uid("pj"),name:"أعمال مساحية وصكوك",sector:"خدمات مساحية",loc:"الرياض · بيشة · مكة المكرمة",scope:"رفع مساحي وفرز",desc:"رفع مساحي وإصدار إقرارات، وتجزئة ودمج صكوك، وفرز وحدات عقارية لعملاء أفراد ومطوّرين.",image:"",show:true}]},
-gallery:{show:true,eyebrow:"",title:"معرض الأعمال",cats:[{id:"media",label:"صور وفيديوهات من مشاريعنا"},{id:"quick",label:"معلومة على السريع"},{id:"facades",label:"الواجهات"},{id:"contracts",label:"التعاقدات"}],text:"",items:[{id:uid("g"),url:"https://www.tiktok.com/@alshomrani.co/video/7462273578549955847",title:"قسم المساحة",caption:"مساحتك محددة بدقة ",type:"video"},{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد",cat:"facades"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة",cat:"facades"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة",cat:"contracts"},{id:uid("g"),url:"https://www.tiktok.com/@alshomrani.co/video/7517296652974083335",title:"شركة سعد الشمراني للاستشارات الهندسية",caption:"",cat:"quick",type:"video"},{id:uid("g"),url:"https://www.instagram.com/alshomrani.co/reel/DdGt9UYx_Q0/",title:"تعاقد قرار مساحي",caption:"قسم المساحة",type:"video"},{id:uid("g"),url:"https://www.youtube.com/watch?v=aFofb2iTYOY",title:"طريقه اعتماد الوكاله في منصه بلدي",caption:"",cat:"contracts",type:"auto"}]},
+gallery:{show:true,eyebrow:"",title:"معرض الأعمال",cats:[{id:"media",label:"صور وفيديوهات من مشاريعنا"},{id:"quick",label:"معلومة على السريع"},{id:"facades",label:"الواجهات"},{id:"contracts",label:"التعاقدات"}],text:"",items:[{id:uid("g"),url:"https://www.tiktok.com/@alshomrani.co/video/7462273578549955847",title:"قسم المساحة",caption:"مساحتك محددة بدقة ",type:"video"},{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد",cat:"facades"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة",cat:"facades"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة",cat:"contracts"},{id:uid("g"),url:"https://www.tiktok.com/@alshomrani.co/video/7517296652974083335",title:"شركة سعد الشمراني للاستشارات الهندسية",caption:"",cat:"quick",type:"video"},{id:uid("g"),url:"assets/media/videos/quick-01.mp4",title:"معلومة على السريع",caption:"",cat:"quick",type:"video"},{id:uid("g"),url:"https://www.instagram.com/alshomrani.co/reel/DdGt9UYx_Q0/",title:"تعاقد قرار مساحي",caption:"قسم المساحة",type:"video"},{id:uid("g"),url:"https://www.youtube.com/watch?v=aFofb2iTYOY",title:"طريقه اعتماد الوكاله في منصه بلدي",caption:"",cat:"contracts",type:"auto"}]},
 about:{title:"شركة هندسية سعودية، <em>من فرع واحد إلى أربعة</em>",
  sub:"تأسست عام 2016 لتكون إحدى الشركات الرائدة في الاستشارات الهندسية، واضعةً الجودة والدقة والالتزام في صميم أعمالها.",
  storyEyebrow:"قصة الشركة",storyTitle:"من فرع واحد في الرياض إلى شبكة تخدم أهم مناطق المملكة",
@@ -1345,7 +1365,9 @@ function mediaEl(m){
  if(tk)return '<iframe class="vert" src="https://www.tiktok.com/player/v1/'+esc(tk[1])+'?rel=0&description=0" title="'+esc(m.title||"TikTok")+'" loading="lazy" allow="autoplay;fullscreen;encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
  var ig=u.match(/instagram\.com\/(p|reel|tv)\/([\w-]+)/);
  if(ig)return '<iframe class="vert" src="https://www.instagram.com/'+esc(ig[1])+'/'+esc(ig[2])+'/embed" title="'+esc(m.title||"Instagram")+'" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
- if(m.type==="video"||/\.(mp4|webm|ogg|mov)(\?|$)/i.test(u))return '<video src="'+esc(u)+'" controls preload="metadata" playsinline></video>';
+ if(m.type==="video"||/\.(mp4|webm|ogg|mov)(\?|$)/i.test(u)){
+  var pv=m.poster||(/^assets\/media\/videos\/.+\.mp4$/i.test(u)?u.replace(/\.mp4$/i,".jpg"):"");
+  return '<video src="'+esc(u)+(u.indexOf("#")<0?'#t=0.1':'')+'"'+(pv?' poster="'+esc(pv)+'"':'')+' controls preload="metadata" playsinline title="'+esc(m.title||"")+'" onloadedmetadata="if(this.videoHeight>this.videoWidth)this.classList.add(\'vert\')"></video>';}
  var ss="",full=u,mm=u.match(/^(.*)-(sm|md|lg)\.webp$/);
  if(mm){ss=' srcset="'+esc(mm[1])+'-sm.webp 500w, '+esc(mm[1])+'-md.webp 900w, '+esc(mm[1])+'-lg.webp 1800w" sizes="(max-width:640px) 92vw, (max-width:1020px) 46vw, 30vw"';full=mm[1]+'-lg.webp';}
  return '<img src="'+esc(u)+'"'+ss+' data-full="'+esc(full)+'" alt="'+esc(m.title||"")+'" loading="lazy" decoding="async" onerror="this.style.display=\'none\'">';}
@@ -1433,7 +1455,7 @@ function renderHome(){
  var _hm="";
  if(h.heroVideo)_hm='<video class="hero-bg" autoplay muted loop playsinline preload="metadata"'+(h.heroImage?' poster="'+esc(h.heroImage)+'"':'')+'><source src="'+esc(h.heroVideo)+'"></video>';
  else if(h.heroImage)_hm='<img class="hero-bg kenburns" src="'+esc(h.heroImage)+'" alt="" fetchpriority="high" decoding="async" onerror="this.remove();">';
- var _copy='<div class="hero-copy reveal"><div class="eyebrow"><img class="est-logo" src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="42" height="42" loading="eager"><span>'+esc(h.eyebrow)+'</span></div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div>'+heroSocial()+'</div>';
+ var _copy='<div class="hero-copy reveal"><div class="eyebrow"><img class="est-logo" src="'+esc(C.site.logo||"assets/logo-icon.png")+'" alt="" width="60" height="60" loading="eager"><span>'+esc(h.eyebrow)+'</span></div><h1>'+esc(h.titleA)+'<br>'+esc(h.titleB)+' <em>'+esc(h.titleEm)+'</em></h1><p>'+esc(h.lead)+'</p><div class="hero-ctas"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' '+esc(h.ctaPrimary)+'</a><a class="btn '+(h.heroFull!==false&&_hm?'btn-light':'btn-outline')+'" href="#/services">'+esc(h.ctaSecondary)+'</a></div>'+heroSocial()+'</div>';
  var _badges=(h.badgeTop?'<div class="badge-top">'+I.star+' '+esc(h.badgeTop)+'</div>':'')+(h.badgeFloat?'<div class="badge-float"><span class="ic">'+I.house+'</span> '+esc(h.badgeFloat)+'</div>':'');
  var _hero=(h.heroFull!==false&&_hm)
   ? '<section class="hero hero-cine" id="top"><div class="hero-media">'+_hm+'<span class="hero-scrim"></span></div><div class="hero-inner">'+_copy+'</div><a class="hero-down" href="#/services" aria-label="تصفّح الخدمات"></a></section>'
@@ -1736,7 +1758,7 @@ function admRender(tab){
   h+=(g.items.length?"":'<p style="color:var(--charcoal-soft);font-size:14px;margin-bottom:16px;">لا توجد عناصر بعد — اضغط «إضافة عنصر».</p>');
   h+=g.items.map(function(m,i){
    var prev=m.url?'<div style="margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid var(--line);max-width:280px;">'+mediaEl(m)+'</div>':'';
-   return '<div class="rep"><div class="rep-hd"><b>'+esc(m.title||("عنصر "+(i+1)))+'</b>'+listTools("gallery.items",i,g.items.length)+'</div>'+prev+fImg("gallery.items."+i+".url","الصورة أو الرابط",m.url,"ارفع صورة، أو الصق رابط فيديو mp4 أو يوتيوب")+'<div class="fld"><label>القسم</label><select data-bind="gallery.items.'+i+'.cat">'+galCats().map(function(c){return '<option value="'+esc(c.id)+'"'+(galCatOf(m)===c.id?" selected":"")+'>'+esc(c.label)+'</option>';}).join("")+'</select></div>'+'<div class="fld-row">'+fText("gallery.items."+i+".title","العنوان",m.title)+'<div class="fld"><label>النوع</label><select data-bind="gallery.items.'+i+'.type"><option value="auto"'+((m.type||"auto")==="auto"?" selected":"")+'>تلقائي</option><option value="image"'+(m.type==="image"?" selected":"")+'>صورة</option><option value="video"'+(m.type==="video"?" selected":"")+'>فيديو</option></select></div></div>'+fText("gallery.items."+i+".caption","وصف مختصر",m.caption)+'</div>';}).join("")+addBtn("gallery.items","إضافة عنصر");}
+   return '<div class="rep"><div class="rep-hd"><b>'+esc(m.title||("عنصر "+(i+1)))+'</b>'+listTools("gallery.items",i,g.items.length)+'</div>'+prev+fImg("gallery.items."+i+".url","الصورة أو الرابط",m.url,"ارفع صورة من جهازك · أو فيديو قصير: ارفع ملف mp4 (أقل من 20MB) إلى مجلد assets/media/videos في GitHub ثم اكتب هنا assets/media/videos/اسم-الملف.mp4 · أو الصق رابط TikTok / Instagram / YouTube")+'<div class="fld"><label>القسم</label><select data-bind="gallery.items.'+i+'.cat">'+galCats().map(function(c){return '<option value="'+esc(c.id)+'"'+(galCatOf(m)===c.id?" selected":"")+'>'+esc(c.label)+'</option>';}).join("")+'</select></div>'+'<div class="fld-row">'+fText("gallery.items."+i+".title","العنوان",m.title)+'<div class="fld"><label>النوع</label><select data-bind="gallery.items.'+i+'.type"><option value="auto"'+((m.type||"auto")==="auto"?" selected":"")+'>تلقائي</option><option value="image"'+(m.type==="image"?" selected":"")+'>صورة</option><option value="video"'+(m.type==="video"?" selected":"")+'>فيديو</option></select></div></div>'+fText("gallery.items."+i+".caption","وصف مختصر",m.caption)+'</div>';}).join("")+addBtn("gallery.items","إضافة عنصر");}
  else if(tab==="about"){var a=C.about;
   h+=fText("about.title","عنوان الصفحة",a.title,"يمكن استخدام <em>كلمة</em> لتمييزها")+fArea("about.sub","النص التعريفي",a.sub);
   h+=HR+'<h4 style="margin-bottom:14px;">قصة الشركة</h4>';

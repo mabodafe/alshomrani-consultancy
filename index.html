@@ -1014,6 +1014,12 @@ kbd{background:var(--charcoal);color:#fff;border-radius:5px;padding:2px 7px;font
 @media (prefers-reduced-motion:reduce){
   .mbar .wa::before{animation:none;}
 }
+
+/* ===== hero company line bigger · gallery title in brand red ===== */
+.hero-cine .eyebrow{font-size:19px;letter-spacing:.2px;line-height:1.5;}
+.gallery-sec .sec-head h2{color:var(--red);}
+@media (max-width:640px){.hero-cine .eyebrow{font-size:15px;}}
+@media (max-width:365px){.hero-cine .eyebrow{font-size:13.5px;}}
 </style>
 </head>
 <body>
@@ -1131,7 +1137,7 @@ var DEFAULT_CONTENT={
 schema:SCHEMA,version:1,updatedAt:0,
 site:{brandName:"شركة سعد الشمراني",brandSub:"للاستشارات الهندسية",legalName:"شركة سعد مفرح الشمراني للاستشارات الهندسية",
  title:"شركة سعد الشمراني للاستشارات الهندسية | تصميم، رخص، مساحة، إشراف، سلامة",
- description:"شركة سعد مفرح الشمراني للاستشارات الهندسية — تأسست 2016، أربعة فروع داخل المملكة. تصميم معماري وإنشائي، رخص ومعاملات بلدية، أعمال مساحية وصكوك، إشراف هندسي، وأنظمة أمن وسلامة. مرخّصة من الهيئة السعودية للمهندسين ومعتمدة من الهيئة العامة للعقار.",
+ description:"شركة سعد الشمراني للاستشارات الهندسية — تأسست 2016، أربعة فروع داخل المملكة. تصميم معماري وإنشائي، رخص ومعاملات بلدية، أعمال مساحية وصكوك، إشراف هندسي، وأنظمة أمن وسلامة. مرخّصة من الهيئة السعودية للمهندسين ومعتمدة من الهيئة العامة للعقار.",
  logo:"assets/logo-icon.png",phone:"0570086833",phone2:"0112339913",phoneIntl:"+966570086833",whatsapp:"966570086833",
  email:"s3adalshomrani2022@gmail.com",address:"الرياض — حي العارض — شارع ريحانة بنت زيد، 13338",
  crNumber:"2028159650",sceNumber:"5110104772",foundedYear:"2016",
@@ -1139,21 +1145,19 @@ site:{brandName:"شركة سعد الشمراني",brandSub:"للاستشارا�
 nav:[{id:"home",label:"الرئيسية",route:"/",show:true},{id:"services",label:"خدماتنا",route:"/services",show:true},
  {id:"projects",label:"أعمالنا",route:"/projects",show:true},{id:"about",label:"من نحن",route:"/about",show:true},
  {id:"contact",label:"تواصل معنا",route:"/contact",show:true}],
-hero:{eyebrow:"استشارات هندسية متكاملة منذ 2016",titleA:"من الأرض إلى الرخصة،",titleB:"ومن المخطط إلى",titleEm:"التسليم",
- lead:"شركة سعد مفرح الشمراني للاستشارات الهندسية تجمع لك التصميم، الرخص والمعاملات البلدية، الأعمال المساحية، الإشراف الهندسي، وأنظمة الأمن والسلامة — تحت سقف واحد، بفريق مرخّص ومعتمد رسمياً، وأربعة فروع داخل المملكة.",
+hero:{eyebrow:"شركة سعد الشمراني - استشارات هندسية متكاملة منذ 2016",titleA:"",titleB:"من المخطط إلى",titleEm:"التسليم",
+ lead:"نجمع لك التصميم، الرخص والمعاملات البلدية، الأعمال المساحية، الإشراف الهندسي، وأنظمة السلامة — تحت سقف واحد، بفريق مرخّص ومعتمد رسمياً، 4 فروع داخل المملكة.",
  ctaPrimary:"احصل على استشارة مجانية",ctaSecondary:"تعرّف على خدماتنا",badgeTop:"معتمدون لدى الهيئة العامة للعقار",
  badgeFloat:"تصميم، رخص، مساحة وإشراف هندسي كامل",heroImage:"assets/media/villa-render-lg.webp",heroVideo:"",heroFull:true},
-stats:[{id:uid("st"),value:"2016",label:"سنة التأسيس"},{id:uid("st"),value:"4 فروع",label:"الرياض (فرعان)، بيشة، مكة المكرمة"},
- {id:uid("st"),value:"+40",label:"خدمة هندسية مفصّلة"},{id:uid("st"),value:"+20",label:"مشروع منفّذ وموثّق"}],
-credentials:[{id:uid("cr"),icon:"checkc",text:"ترخيص الهيئة السعودية للمهندسين رقم 5110104772"},
- {id:uid("cr"),icon:"home",text:"استشاري معتمد من الهيئة العامة للعقار (REGA) — البيع والتأجير على الخارطة"},
- {id:uid("cr"),icon:"shield",text:"مصنّفون لدى بلدي — تصنيف مقدمي خدمات المدن، المكاتب الهندسية"}],
-servicesIntro:{eyebrow:"خدماتنا",title:"منظومة خدمات هندسية متكاملة",
- text:"ستّ فئات خدمية وأكثر من أربعين خدمة فرعية — من أول رسمة للمخطط إلى آخر توقيع على شهادة الإشغال. فريقنا متعدد التخصصات ينسّق داخلياً قبل أن يصل عملك إلى أي جهة حكومية أو مقاول."},
+stats:[{id:uid("st"),value:"2016",label:"سنة التأسيس"},{id:uid("st"),value:"5 فروع",label:"الرياض (ثلاثة فروع)، بيشة، مكة المكرمة"},
+ {id:uid("st"),value:"+40",label:"خدمة هندسية مفصّلة"},{id:uid("st"),value:"+50",label:"مشروع منفّذ وموثّق"}],
+credentials:[],
+servicesIntro:{eyebrow:"خدماتنا",title:"",
+ text:""},
 services:[
 {id:"design",icon:"pencil",name:"خدمات التصميم",intro:"حزمة تصميم متكاملة تغطي كل التخصصات — من المخطط المعماري والإنشائي إلى الديكور الداخلي واللاندسكيب — بمراجعة داخلية متبادلة قبل التسليم.",
  bullets:["تصاميم معمارية وإنشائية","تصاميم كهربائية وميكانيكية","تصاميم كفاءة الطاقة ومخططات السلامة","واجهات خارجية، لاندسكيب، وديكور داخلي"],
- details:["تصاميم إنشائية","تصاميم معمارية","تصاميم كهربائية","تصاميم ميكانيكية","تصاميم كفاءة الطاقة","تصميم مخططات السلامة","تصاميم الواجهات الخارجية","تصاميم اللاندسكيب","تصاميم الديكور الداخلي"],
+ details:["تصاميم إنشائية","تصاميم معمارية","تصاميم كهربائية","تصاميم ميكانيكية","تصاميم كفاءة الطاقة","تصميم مخططات السلامة","تصاميم الواجهات الخارجية","تصاميم اللاند سكيب","تصاميم الديكور الداخلي"],
  suited:"فلل، عمائر سكنية، مبانٍ تجارية وإدارية، منشآت تعليمية وصحية وفندقية",image:"assets/media/floor-plan-md.webp",show:true},
 {id:"permits",icon:"doc",name:"الرخص والمعاملات البلدية",intro:"ستّ عشرة خدمة ترخيصية نتولّاها بالكامل نيابةً عنك — من فتح المعاملة حتى صدور الرخصة أو شهادة الإشغال، دون أن تراجع أي جهة بنفسك.",
  bullets:["إصدار وتجديد رخص البناء والهدم والترميم","شهادات الإشغال وإتمام البناء","تصحيح أوضاع المباني القائمة","تجزئة ودمج الصكوك وتحديثها"],
@@ -1229,7 +1233,7 @@ projectsPage:{title:"مشاريع <em>منفّذة وموثّقة</em>",
  {id:uid("pj"),name:"تصاميم ثلاثية الأبعاد — نماذج معمارية",sector:"تصميم 3D",loc:"الرياض",scope:"نمذجة ومناظير",desc:"نماذج ومناظير ثلاثية الأبعاد تُظهر شكل المبنى ومواد التشطيب قبل بدء التنفيذ.",image:"",show:true},
  {id:uid("pj"),name:"تصميم ثلاثي الأبعاد — مطعم",sector:"تصميم 3D",loc:"الرياض",scope:"تصميم داخلي ونمذجة",desc:"تصميم داخلي لمطعم مع نمذجة ثلاثية الأبعاد للإضاءة والتشطيبات وتوزيع الجلسات.",image:"",show:true},
  {id:uid("pj"),name:"أعمال مساحية وصكوك",sector:"خدمات مساحية",loc:"الرياض · بيشة · مكة المكرمة",scope:"رفع مساحي وفرز",desc:"رفع مساحي وإصدار إقرارات، وتجزئة ودمج صكوك، وفرز وحدات عقارية لعملاء أفراد ومطوّرين.",image:"",show:true}]},
-gallery:{show:true,eyebrow:"معرض الأعمال",title:"صور وفيديوهات من مشاريعنا",cats:[{id:"media",label:"صور وفيديوهات من مشاريعنا"},{id:"quick",label:"معلومة على السريع"},{id:"facades",label:"الواجهات"},{id:"contracts",label:"التعاقدات"}],text:"لقطات من مشاريع ومواقع نعمل عليها فعلياً.",items:[{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة"}]},
+gallery:{show:true,eyebrow:"",title:"معرض الأعمال",cats:[{id:"media",label:"صور وفيديوهات من مشاريعنا"},{id:"quick",label:"معلومة على السريع"},{id:"facades",label:"الواجهات"},{id:"contracts",label:"التعاقدات"}],text:"",items:[{id:uid("g"),url:"https://www.tiktok.com/@alshomrani.co/video/7462273578549955847",title:"قسم المساحة",caption:"مساحتك محددة بدقة ",type:"video"},{id:uid("g"),url:"assets/media/villa-render-md.webp",title:"فيلا سكنية — تصميم واجهات وتنفيذ",caption:"نموذج ثلاثي الأبعاد للواجهة قبل التنفيذ"},{id:uid("g"),url:"assets/media/structural-model-md.webp",title:"نموذج إنشائي ثلاثي الأبعاد",caption:"تحليل الهيكل الخرساني والأساسات قبل الاعتماد",cat:"facades"},{id:uid("g"),url:"assets/media/floor-plan-md.webp",title:"مخطط معماري تنفيذي",caption:"توزيع المساحات بالأبعاد المعتمدة",cat:"facades"},{id:uid("g"),url:"assets/media/site-supervision-md.webp",title:"إشراف هندسي على الموقع",caption:"مراجعة حديد التسليح قبل الصب"},{id:uid("g"),url:"assets/media/land-surveying-md.webp",title:"أعمال مساحية ورفع طبوغرافي",caption:"رفع ميداني بمحطة رصد متكاملة",cat:"contracts"},{id:uid("g"),url:"https://www.tiktok.com/@alshomrani.co/video/7517296652974083335",title:"شركة سعد الشمراني للاستشارات الهندسية",caption:"",cat:"quick",type:"video"},{id:uid("g"),url:"https://www.instagram.com/alshomrani.co/reel/DdGt9UYx_Q0/",title:"تعاقد قرار مساحي",caption:"قسم المساحة",type:"video"},{id:uid("g"),url:"https://www.youtube.com/watch?v=aFofb2iTYOY",title:"طريقه اعتماد الوكاله في منصه بلدي",caption:"",cat:"contracts",type:"auto"}]},
 about:{title:"شركة هندسية سعودية، <em>من فرع واحد إلى أربعة</em>",
  sub:"تأسست عام 2016 لتكون إحدى الشركات الرائدة في الاستشارات الهندسية، واضعةً الجودة والدقة والالتزام في صميم أعمالها.",
  storyEyebrow:"قصة الشركة",storyTitle:"من فرع واحد في الرياض إلى شبكة تخدم أهم مناطق المملكة",
@@ -1291,7 +1295,7 @@ social:[{id:uid("so"),icon:"ig",label:"Instagram",url:"https://www.instagram.com
  {id:uid("so"),icon:"tt",label:"TikTok",url:"https://www.tiktok.com/@alshomrani.co",show:true},
  {id:uid("so"),icon:"sc",label:"Snapchat",url:"https://snapchat.com/t/FhAwkR2E",show:true},
  {id:uid("so"),icon:"x",label:"X",url:"https://x.com/alshomranico",show:true},
- {id:uid("so"),icon:"yt",label:"YouTube",url:"https://www.youtube.com/@%D9%85%D9%83%D8%AA%D8%A8_%D8%B3%D8%B9%D8%AF_%D9%85%D9%81%D8%B1%D8%AD_%D8%A7%D9%84%D8%B4%D9%85%D8%B1%D8%A7%D9%86%D9%8A",show:true}]};
+ {id:uid("so"),icon:"yt",label:"YouTube",url:"https://www.youtube.com/@%D8%B4%D8%B1%D9%83%D9%87_%D8%B3%D8%B9%D8%AF_%D9%85%D9%81%D8%B1%D8%AD_%D8%A7%D9%84%D8%B4%D9%85%D8%B1%D8%A7%D9%86%D9%8A",show:true}]};
 var C=null,isAdmin=false,dirty=false,_fbInit=null;
 var fb={app:null,auth:null,db:null,ready:false};
 function $(s,r){return (r||document).querySelector(s);}

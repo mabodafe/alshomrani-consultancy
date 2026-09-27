@@ -1060,6 +1060,10 @@ header.nav .brand img{width:56px;height:56px;}
   header.nav .nav-links a{padding:0 6px;}
   header.nav .nav-inner{padding:6px 8px;gap:6px;}
 }
+
+/* contact page: photo in the «before you contact us» section */
+.hero-art.contact-art{height:auto !important;aspect-ratio:3/2;}  /* whole photo shows, no cropping */
+.contact-art img{box-shadow:var(--shadow);}
 </style>
 </head>
 <body>
@@ -1508,7 +1512,7 @@ function renderContact(){
  var map=c.mapUrl?'<section class="services" style="padding:0 0 80px;"><div class="wrap"><div style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);"><iframe src="'+esc(c.mapUrl)+'" width="100%" height="420" style="border:0;display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="موقع الشركة"></iframe></div></div></section>':'';
  return pheadBlock("تواصل معنا",c.title,c.sub)+
  '<section class="services" style="padding:80px 0;"><div class="wrap"><div class="cgrid"><div class="ccard reveal"><span class="ic">'+I.wa+'</span><h4>واتساب — الأسرع</h4><p>ردّ خلال ساعات العمل، ويمكنك إرفاق صورة الصك مباشرة.</p><p style="margin-top:14px;"><a class="svc-cta" data-wa="">ابدأ محادثة '+I.arrow+'</a></p></div><div class="ccard reveal"><span class="ic">'+I.phone+'</span><h4>الهاتف</h4><p><a href="'+telLink()+'" dir="ltr">'+esc(C.site.phone)+'</a></p>'+(C.site.phone2?'<p style="margin-top:4px;"><a href="tel:'+esc(String(C.site.phone2).replace(/[^0-9+]/g,""))+'" dir="ltr">'+esc(C.site.phone2)+'</a></p>':'')+'<small>'+esc(c.hours)+'</small></div><div class="ccard reveal"><span class="ic">'+I.mail+'</span><h4>البريد الإلكتروني</h4><p><a href="mailto:'+esc(C.site.email)+'">'+esc(C.site.email)+'</a></p><small>للعروض والمراسلات الرسمية</small></div><div class="ccard reveal"><span class="ic">'+I.pin+'</span><h4>المقر الرئيسي</h4><p>'+esc(C.site.address)+'</p><small>وفروع في بيشة ومكة المكرمة</small></div></div></div></section>'+map+
- '<section class="why"><div class="wrap"><div class="split"><div class="reveal"><div class="eyebrow">قبل أن تتواصل</div><h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;">'+esc(c.prepTitle)+'</h2><ul class="checks">'+prep+'</ul><div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' أرسل عبر واتساب</a><a class="btn btn-outline" href="'+telLink()+'">اتصال مباشر</a></div></div><div class="reveal"><div class="hero-art" style="height:420px;">'+heroArt("",'<div class="badge-top">'+I.star+' استشارة أولى مجانية</div>')+'</div></div></div></div></section>'+
+ '<section class="why"><div class="wrap"><div class="split"><div class="reveal"><div class="eyebrow">قبل أن تتواصل</div><h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;">'+esc(c.prepTitle)+'</h2><ul class="checks">'+prep+'</ul><div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;"><a class="btn btn-whatsapp" data-wa="">'+I.wa+' أرسل عبر واتساب</a><a class="btn btn-outline" href="'+telLink()+'">اتصال مباشر</a></div></div><div class="reveal"><div class="hero-art contact-art" style="height:420px;">'+heroArt("assets/media/contact-call.webp",'<div class="badge-top">'+I.star+' استشارة أولى مجانية</div>')+'</div></div></div></div></section>'+
  '<section class="services" style="padding:90px 0;"><div class="wrap"><div class="sec-head reveal" style="margin-inline:auto;text-align:center;"><div class="eyebrow" style="justify-content:center;">أسئلة متكررة</div><h2>'+esc(c.faqTitle)+'</h2></div><div class="faq" style="max-width:860px;margin:0 auto;">'+faq+'</div></div></section>'+ctaBlock("/contact");}
 function bindProjTabs(root){
  var tabs=$$(".ptab",root);if(!tabs.length)return;
